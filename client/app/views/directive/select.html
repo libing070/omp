@@ -1,0 +1,12 @@
+<div >
+  <div class=" pop-op" ng-show="showBox" ng-click="hidePop()"></div>
+  <div class="rel">
+    <div  ng-click="expandBox()" >{{showText}}</div>
+
+    <div class="option-box" ng-show="showBox">
+      <div class="option-item" ng-repeat="item in option" ng-click="show(item)">{{item}}</div>
+    </div>
+  </div>
+
+
+</div>

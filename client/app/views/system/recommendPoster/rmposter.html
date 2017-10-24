@@ -1,0 +1,129 @@
+<form ng-submit="saveSort()">
+  <nav class="nav-bar">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur" ng-click="goTo('/gtposter/')">设置 ></span>
+    <span class="cur">推荐区海报管理</span>
+  </nav>
+  <div class="tr">
+    <a href="#/setactivity/{{ticket}}/{{domain}}" class="btn btn-default  btn-broad">活动设置</a>
+    <a href="#/addrmposter/{{ticket}}/{{domain}}" class="btn  btn-default btn-broad">+新增推荐区海报</a>
+    <button type="button" class="btn btn-default  btn-broad" ng-click="sort()" ng-show="canSort">编辑排序</button>
+    <button type="submit" class="btn btn-success  btn-broad"  ng-show="!canSort">保存排序</button>
+    <button class="btn btn-success btn-broad" type="button" class="btn add-city" ng-click="publishPoster()">发布</button>
+  </div>
+
+<table class="top30 table-small">
+  <thead>
+  <tr>
+    <th width="20%">名称</th>
+    <th width="30%">缩略图 <span>(702*280)</span></th>
+    <th width="20%">操作</th>
+    <th width="30%">排序（填写数字）
+      <span class="danger" ng-show="!sortInt">排序输入必须是正整数,请重新输入</span>
+      <span class="danger" ng-show="sortNull">请输入排序数字</span>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="recommend in recommendList">
+     <td style="position:relative;"><span ng-show="!recommend.resourcesUrl" style="position:absolute;left:0;text-align:center;border:solid 1px;width:20px;height:20px;border-radius:20px;">稿</span>{{recommend.recommendName}}</td>
+    <td >
+				<div>
+					<span ng-if="recommend.picUrl" ng-mouseenter="show(recommend.picUrl,$event)" ng-mouseleave="hideImg()">
+						{{recommend.picUrl.substring(recommend.picUrl.lastIndexOf('/')+1)}}
+
+					</span>&nbsp;&nbsp;
+					<span class=" btn-sm rel">
+						<input type="file" id="file" class="fileBtn"  onchange="angular.element(this).scope().setFiles(this)"  data-index="{{$index}}" data-cid="{{recommend.recommendID}}" />
+						<span ng-if="recommend.picUrl" class="danger">更改</span> <span ng-if="!recommend.picUrl" class="success">上传图片</span></span>
+				</div>
+    </td>
+
+    <td>
+      <a href="#/editrmposter/{{recommend.recommendID}}/{{recommend.recommendName}}/{{recommend.recommendType}}/{{recommend.valueName}}/{{recommend.valueID}}/{{ticket}}/{{domain}}">编辑</a><!--ng-click="getGoodNumber(recommend.valueID,recommend.recommendType)"-->
+      &nbsp;&nbsp;<a href="javascript:;" ng-click="delRecommend(recommend.recommendID)">删除</a>
+    </td>
+    <td ><input class="btn btn-sm" type="text" ng-model="recommend.priority"  ng-disabled="canSort" ng-value="recommend.priority" ng-focus="enterSortNumber()"></td>
+  </tr>
+  </tbody>
+</table>
+</form>
+
+<!--没有可以发布的海报-->
+<div class="pop" ng-show="modalNullPublish">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      没有可以发布的海报
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePoster()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="modalPublish">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+  确认发布后，该城市的顾客端用户将可以在首页中看到重新发布后的推荐类海报，您是确认发布？
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closePoster()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensurePublish()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!--删除提示框-->
+<div class="pop" ng-show="modalDel">
+  <div class="pop-up pop-up-small">
+    <h3  class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+  删除该海报后，该类别将无法在顾客端首页中显示，您是否确定删除？
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closeModalDel()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureModalDel()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="pop" ng-show="popShow">
+    <div class="pop-up">
+        <h1 class="pop-title">提示</h1>
+      <div class="pop-wrap tc" >
+        <div class="ib tl">
+        	{{context}}
+        </div>
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input btn-success" ng-click="cancel()">确定</button>
+      </div>
+    </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyPublish">
+  <div class="pop-wrap tc success"><!--->
+    已发布
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyDel">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+
+
+	<!-- 展示图片 -->
+<div class="showImg" ng-show="showImg" ng-style="showPos">
+	<p class="arrow"></p>
+	<p class="arrow-inner"></p>
+	<div class="imgBox">
+		<img ng-src="{{showImgSrc}}" />
+	</div>
+
+</div>
+
+

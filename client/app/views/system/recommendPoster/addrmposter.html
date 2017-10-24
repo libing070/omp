@@ -1,0 +1,164 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="cur" ng-click="goTo('/gtposter/')">设置 > </span>
+  <span class="cur" ng-click="goTo('/rmposter/')">推荐区海报管理 > </span>
+  <span class="cur">新增推荐区海报</span>
+</nav>
+
+  <form class="top25" ng-submit="addrmposter()">
+    <div class="input-group">
+      <label class="input-group-addon"><span class="require">*</span>海报名称</label>
+      <div class="input-group-content">
+        <input type="text" class="btn btn-input-wide" ng-model="recommendName" ng-focus="code()">
+        <span ng-show="recommendNameNull" class="danger">请填写海报名称</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-group-addon"><span class="require">*</span>跳转类型</label>
+      <div class="input-group-content">
+        <select class="btn btn-input-wide"  ng-model="recommendType" ng-change="selectType()" ng-click="code()">
+          <option value="">请选择</option>
+          <option  ng-repeat="recommend in recommendList" value="{{recommend.codeValue}}">{{recommend.codeName}}</option>
+        </select>
+        <span ng-show="recommendTypeNull" class="danger">请选择跳转类型</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-group-addon"  ng-show="showActivity"><span class="require">*</span>目标活动</label>
+      <div class="input-group-content"  ng-show="showActivity">
+        <select  class="btn btn-input-wide" ng-model="activityType" ng-click="showSelActivity()">
+          <option value="">{{activityName}}</option>
+          <!--<option value="">请选择</option>-->
+        </select>
+        <span ng-show="ActivityNull" class="danger">请选择目标活动</span>
+      </div>
+      <label ng-show="showGoods" class="input-group-addon"><span class="require">*</span>目标商品</label>
+      <div ng-show="showGoods" class="input-group-content">
+        <select class="btn btn-input-wide" ng-model="goodsType" ng-click="showSelGoods()">
+          <option value="">{{goodsList.goodsCustomNumber}}&nbsp;&nbsp;&nbsp;{{goodsList.goodsName}}</option>
+          <!--<option value="">请选择</option>-->
+        </select>
+        <span ng-show="goodsNull" class="danger">请选择目标商品</span>
+      </div>
+    </div>
+    <div class="input-group top30">
+      <label class="input-group-addon">&nbsp;</label>
+      <div class="input-group-content">
+        <a href="#/rmposter" class="btn btn-default btn-input" type="button" >取消</a>
+        &nbsp;&nbsp;<button class="btn btn-input btn-success" type="submit">保存</button>
+      </div>
+    </div>
+</form>
+
+  <!--选择跳转活动-->
+  <form ng-submit="selActivity()">
+    <div class="pop" ng-show="modalSelectActivity">
+      <div class="pop-up pop-up-high">
+        <h3 class="pop-title">选择跳转活动</h3>
+        <div  class="pop-wrap">
+          <table>
+            <thead>
+            <tr>
+              <th>选择</th>
+              <th>活动名称</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="activity in activityList">
+              <label>
+                <td><input type="radio" name="activity-name" value="{{activity.activityID}}" ng-model="formData.activityID"></td>
+                <td>{{activity.activityName}}</td>
+              </label>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div  class="pop-btn tc">
+          <button type="button" class="btn btn-input" ng-click="closeSel()">取消</button>
+          <button type="submit" class="btn btn-input btn-success" ng-click="closePoster()">确认</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!--选择跳转商品-->
+  <form ng-submit="selGoods()">
+    <div class="pop" ng-show="modalSelectGoods">
+      <div class="pop-up pop-up-high">
+        <h3 class="pop-title">选择跳转商品</h3>
+      <div  class="pop-wrap">
+        <table>
+          <thead>
+          <tr>
+            <th>选择</th>
+            <th>商品名称</th>
+            <th>商品编码</th>
+            <th>产品类别</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="good in goodsList">
+            <label>
+              <td><input type="radio" name="good-name" value="{{good.goodsID}}" ng-model="formDataa.goodsID"></td>
+              <td>{{good.goodsName}}</td>
+              <td>{{good.goodsCustomNumber}}</td>
+              <td>{{good.goodsTypeName}}</td>
+            </label>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div   class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeSel()">取消</button>
+        <button type="submit" class="btn btn-input btn-success" ng-click="closePoster()">确认</button>
+      </div>
+    </div>
+    </div>
+  </form>
+
+
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="activityPicNull">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      该活动尚未上传图片，请上传图片后再执行该操作。
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePoster()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

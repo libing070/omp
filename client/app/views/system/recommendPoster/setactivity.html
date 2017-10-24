@@ -1,0 +1,119 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tip cur" ng-click="goTo('/gtposter/')">设置 > </span>
+  <span class="cur" ng-click="goTo('/rmposter/')">推荐区海报管理 > </span>
+  <span class="cur">活动设置</span>
+</nav>
+<div class="tr">
+  <button type="button" class="btn btn-success btn-broad" ng-click="addActivity()">+新增活动</button>
+</div>
+
+  <table class="top30 table-small">
+    <thead>
+    <tr>
+      <th>活动名称</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="activity in activityList">
+      <td >{{activity.activityName}}</td>
+      <td >
+        <a href="javascript:;" ng-click="editName(activity.activityID,activity.activityName)">编辑名称</a>&nbsp;&nbsp;
+        <a href="#/uploadPoster/{{activity.activityID}}/{{activity.activityName}}/{{ticket}}/{{domain}}" >图片上传或排序</a>&nbsp;&nbsp;
+        <a href="javascript:;" ng-click="delActivity(activity.activityID)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!--删除活动提示框-->
+  <div class="pop" ng-show="modalDel">
+    <div class="pop-up pop-up-small">
+      <h3 class="pop-title">提示</h3>
+      <div class="pop-wrap tc">
+        是否确认删除该活动?
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalDel()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureModalDelActivity()">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!--新增活动提示框-->
+  <div class="pop" ng-show="modalAdd">
+    <div class="pop-up pop-up-small">
+      <h3 class="pop-title">新增活动</h3>
+      <div class="pop-wrap tc">
+        活动名称: <input type="text" ng-model="activityName" ng-focus="enterActivityName()">
+        <div class="danger" ng-show="activityNameNull">请输入活动名称</div>
+        <div class="danger" ng-show="activityNameRep">活动名称重复</div>
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalDel()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureModalAddActivity()">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!--编辑活动名称提示框-->
+  <div class="pop" ng-show="modalEditName">
+    <div class="pop-up pop-up-small">
+      <h3 class="pop-title">编辑活动名称</h3>
+      <div class="pop-wrap tc">
+        活动名称: <input type="text" ng-model="activityName" ng-value="activityName" ng-focus="enterActivityName()">
+        <div class="danger" ng-show="activityNameNull">请输入活动名称</div>
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalDel()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureModalEditActivityName()">确认</button>
+      </div>
+    </div>
+  </div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyDelActivity">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyAddActivity">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>
+
+<div class="pop-up pop-up-small" ng-show="modalActivityRepeat" style="z-index:1000">
+<h3 class="pop-title">提示</h3>
+<div class="pop-wrap tc">
+活动名称重复
+</div>
+<div class="pop-btn tc">
+<button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+</div>
+</div>
+
+<div class="pop-up pop-up-small" ng-show="modalActivityDelFalse">
+  <h3 class="pop-title">提示</h3>
+  <div class="pop-wrap tc">
+    该活动已经关联了推荐区海报，不允许删除
+  </div>
+  <div class="pop-btn tc">
+    <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+

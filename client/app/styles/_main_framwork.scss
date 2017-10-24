@@ -1,0 +1,33 @@
+
+.main{
+  height: 100%;
+  @extend .box;
+  padding:$headerTopHeight+$logoSpace*2+$logoHeight+$navHeight   $zoneSpace $footerHeight $zoneSpace;
+  overflow: visible;
+}
+.content{
+  margin-left:$menuWidth+2 ;
+  border: 1px solid $borderColor;
+  border-left: none;
+  padding: 30px;
+  height: 100%;
+  background: $mainPageBgColor;
+  @extend .box;
+  overflow: auto;
+}
+.narrow-box{
+  .btn{margin-bottom: 10px;}
+
+}
+.show{
+  @extend .box;
+  height: 100%;
+  padding-top: 143px;
+  @extend .rel;
+}
+.list-info{
+  @extend .abs-top-left;
+}
+.list{
+  height: 100%;overflow: auto;
+}

@@ -1,0 +1,247 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/user/')">设置 ></span>
+  <span class="cur">工作排程设置</span>
+</nav>
+
+<div class="tr">
+  <button class="btn btn-success btn-broad" ng-click="setDateBox=true;refreshWorkTime()" ng-disabled="setWork">常规工作时间设置</button>
+</div>
+<nav class="nav">
+  <button ng-class="{2016: 'active'}[isActive] " ng-click="isActive=2016;list('changeYears');" ng-disabled="setWork">2016</button>
+  <button ng-class="{2017: 'active'}[isActive]" ng-click="isActive=2017;list('changeYears');" ng-disabled="setWork">2017</button>
+</nav>
+
+
+
+<div class="rel">
+  <div class="work-range fr">
+    <div class="tc">
+      <button class=" btn btn-narrow  btn-success" ng-disabled="isDisabled"  ng-model="isDisabled"  ng-hide="setWork" ng-click="setWork=true;onHidenPage()"  ng-style="currStatusCss" >设置当月排程</button>
+      <button class=" btn btn-narrow  btn-default" ng-show="setWork" ng-click="saveCalPop=true;" title="确认发布{{isActive}}年{{monthSelect}}月工作排程日历？">发布当月排程</button>
+    </div>
+    <div class="top15" ng-show="setWork">
+      <div class="bigSize">
+        将当前工作日期设置为：
+      </div>
+      <div class="cal-item">
+        <p><input type="radio" name="cal" ng-model="selectItem.scheduleType" ng-value="1" ng-change="selectType()"/> 休息日</p>
+        <p class="cal-info">全天休息</p>
+      </div>
+      <div class="cal-item">
+        <p><input type="radio" name="cal" ng-model="selectItem.scheduleType" ng-value="2" ng-change="selectType()"/> 工作日(正常工作时间)</p>
+        <p class="cal-info">工作时间:{{datesWork.startDate.format("HH:mm")}}-{{datesWork.endDate.format("HH:mm")}}</p>
+      </div>
+
+      <div class="cal-item">
+        <p><input type="radio" name="cal" ng-model="selectItem.scheduleType" ng-value="3" ng-change="selectType()"/> 工作日(弹性工作时间)</p>
+        <p class="cal-info">
+          <input  type="text" id="startDate" date-time  view="hours" position="absolute"   ng-click="setDatePickerPosition()"     max-date="datesChange.maxDate"  format="HH:mm" min-view="minutes"   step="30" ng-model="datesChange.startDate"   class="btn btn-number"  placeholder="09:00"  readonly="readonly" ng-disabled="selectItem.scheduleType!=3"/>
+          <input  type="text" id="endDate"   date-time  view="hours" position="absolute"   ng-click="setDatePickerPosition()"    min-date="datesChange.minDate"  format="HH:mm" min-view="minutes"   step="30" ng-model="datesChange.endDate"     class="btn btn-number"  placeholder="18:00"   readonly="readonly" ng-disabled="datesChange.startDate.format('YYYY-MM-DD')?false:true"/>
+          <br/>
+        </p>
+        <div class="top-line top20"></div>
+      </div>
+    </div>
+    <div class="cal-show" style="font-size:5px">
+      <div class="cal-item">
+        <p><span class="cal-label cal-rest "></span><span>休息日</span></p>
+        <p style="font-size:5px" class="cal-info">工作时间:全天休息</p>
+      </div>
+      <div class="cal-item ">
+        <p><span class="cal-label cal-work"></span><span>工作日(正常工作时间)</span></p>
+        <p  style="font-size:5px"class="cal-info">工作时间:{{datesWork.startDate.format("HH:mm")}}-{{datesWork.endDate.format("HH:mm")}}</p>
+      </div>
+      <div class="cal-item">
+        <p><div class="cal-label cal-change"></div><span>工作日(弹性工作时间)</span></p>
+        <p style="font-size:5px" class="cal-info">
+          工作时间：请查看日历
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+   <div class="work-box">
+    <div class="ov">
+    <button class="btn" ng-disabled="setLtDisabled" ng-model="backMonthSelect" ng-click="backOrGoMonths('back')" style="line-height:1.5;background:none">&lt</button>
+      <select class="btn btn-narrow" ng-model="monthSelect" ng-change="list()" ng-disabled="setWork">
+        <option ng-repeat="i in months">{{i}}</option>
+      </select>
+          <button class="btn" ng-disabled="setGtDisabled" ng-click="backOrGoMonths('go')" style="line-height:1.5;background:none">&gt</button>
+      <strong class="info" ng-show="setWork">你正在编辑的是<span class="success"> {{isActive}}-{{monthSelect}} </span>月份的日历</strong>
+      <button class=" btn btn-narrow btn-info fr"    ng-show="setWork"   ng-click="currListLoad()" title="将取消本次工作排程设置？">取消当前修改</button>
+    </div>
+    <div class="top25 tc" ng-show="listArr.length==0">
+        <button class="btn btn-success btn-wide" ng-click="generate()">生成工作排程</button>
+    </div>
+    <table class="top15" ng-hide="listArr.length==0">
+      <tr>
+        <td ng-repeat="i in daysShort">{{i}}</td>
+      </tr>
+      <tr ng-repeat="week in listArr">
+        <td  class="date-an tc {{bg[day.scheduleDate]}}" ng-repeat="day in week" ng-disabled="isDisabledDay"  ng-model="isDisabledDay"  ng-style="day.scheduleDate<{{currDay}}?{cursor:'no-drop'}:''" 
+             ng-class="{'cal-rest':day.scheduleType==1,'cal-work':day.scheduleType==2,'cal-change':day.scheduleType==3}" 
+             ng-click="setWorkDay(day.schedulingID,day.scheduleDate,setWork);isCurrent(day.scheduleDate)"
+        >
+          <div >
+            <p>{{day.scheduleDate|date:'dd'}}<span style="font-size:10px;padding-left:70px" ng-if="currentDate_==day.scheduleDate">今天</span></p>
+            <p ng-if="day.scheduleType==3" class="work-dur">
+              {{day.workingStart |date:'hh:mm'}} - {{day.workingEnd}}</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<div class="pop" ng-show="setDateBox">
+  <div class="pop-up ">
+    <h1 class="pop-title">常规工作时间设置</h1>
+    <div class="pop-wrap tc" style="margin-bottom:-50px">
+               上班时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               下班时间
+    </div>
+    <div class="pop-wrap tc">
+      <input  type="text" id="workStartDate" date-time  view="hours"  position="absolute" min-date="minDate"        max-date="datesWork.maxDate"  format="HH:mm" min-view="minutes"   step="30" ng-model="datesWork.startDate"   class="btn btn-number"  placeholder="09:00"  readonly="readonly" />
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input  type="text" id="workEndDate"   date-time  view="hours"    position="absolute" date-change="changeDate"  min-date="datesWork.minDate"  format="HH:mm" min-view="minutes"   step="30" ng-model="datesWork.endDate"     class="btn btn-number" placeholder="18:00"   readonly="readonly" ng-disabled="datesWork.startDate.format('YYYY-MM-DD')?false:true"/>
+
+      <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="setDateBox=false;exitFirstD()" title="取消本次常规工作时间设置？">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="setWorkTime()" title='你设置的工作日的常规工作时间为“{{datesWork.startDate.format("HH:mm")}}~{{datesWork.endDate.format("HH:mm")}}”，确认保存？'>保存</button>
+    </div>
+  </div>
+</div>
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="hasError=false;">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="saveCalPop">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc">
+      确认发布{{isActive}}年{{monthSelect}}月工作排程日历？
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-default" onclick="window.location.reload()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="saveCal()">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="calCancle">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc">
+      确认取消{{isActive}}年{{monthSelect}}月工作排程日历的
+      <br/>
+      所有修改？
+    </div>
+    <div class="pop-btn tc">
+
+      <button type="button" class="btn btn-input btn-success" ng-click="calCancle=false">取消</button>
+      <button type="button" class="btn btn-input  btn-default" ng-click="currListLoad()">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="setDateBoxDay">
+<div class="pop-up pop-up-small"  >
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc ng-binding">
+     月份小于当月不允许进行工作排程设置
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="hasErrorDay('1')">确定</button>
+    </div>
+  </div>
+   </div>
+
+
+
+
+
+<div class="pop" ng-show="setDateBoxDay_">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc ng-binding">
+     所选日期小于或等于当前日期不允许进行工作排程设置
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="hasErrorDay('2')">确定</button>
+    </div>
+  </div>
+  </div>
+  
+  <div class="pop" ng-show="setDateBoxDay__">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc ng-binding">
+     弹性工作日的开始时间不允许大于或等于结束时间
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="hasErrorDay('3')">确定</button>
+    </div>
+  </div>
+  </div>
+  
+   <div class="intBox"  ng-show="divFShow">
+       发布中
+  </div>
+    <div class="intBox"  ng-show="divFShowSucc">
+       已发布
+  </div>
+   <div class="intBox"  ng-show="divFShowSave">
+       已保存
+  </div>
+  <div class="intBgColor" ng-show="isIntBgColorShow"></div>
+<div class="pop" ng-show="confirmShowError">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc ng-binding">
+     请选择日期！
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="hasErrorDay('4')">确定</button>
+    </div>
+  </div>
+  </div>
+  
+  <div class="pop" ng-show="setDateSuccess">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc">
+      你设置的工作日的常规工作时间为{{datesWork.startDate.format("HH:mm")}}~{{datesWork.endDate.format("HH:mm")}}
+      确认保存？
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-default" ng-click="exitSetDate()">取消</button>
+      <button type="button" class="btn btn-input  btn-success" ng-click="okSetDate()">确定</button>
+    </div>
+  </div>
+</div>
+ <div class="pop" ng-show="showDateExit">
+  <div class="pop-up pop-up-small">
+    <div class="pop-title">提示</div>
+    <div class="pop-wrap tc">
+      取消本次常规工作时间设置？
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-default" ng-click="calSetDate()">取消</button>
+      <button type="button" class="btn btn-input  btn-success" ng-click="okokSetDate()">确定</button>
+    </div>
+  </div>
+</div>
+

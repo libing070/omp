@@ -1,0 +1,87 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <a class="tips" href="#/user">用户 ></a>
+  <a href="javascript:void(0)">用户查询</a>
+</nav>
+<div class="top25 narrow-box">
+
+  <!--search_registDateStart:{{  dates.search_registDateStart.format('YYYY-MM-DD HH:mm:ss' )  }}<br/>-->
+  <div class="tr">
+    <button class="btn btn-success btn-broad" ng-click="exportExcel()">导出Excel</button>
+  </div>
+
+  <form ng-submit="searchUser()">
+    <div class="top15">
+      <button class="btn btn-input btn-defualt" style="float:right;" type="submit">查找</button>
+      <input type="text"  style="float:left;margin-right:1%;" readonly="readonly" date-time view="date" position="absolute" min-date="minDate" timezone="UTC" format="YYYY-MM-DD" min-view="date" step="1" ng-model="dates.search_registDateStart" class="btn btn-narrow" placeholder="注册起始日期"/>
+      <input type="text"   style="float:left;margin-right:1%;" readonly="readonly" date-time view="date" position="absolute" min-date="minDate" timezone="UTC" format="YYYY-MM-DD" min-view="date" step="1" ng-model="dates.search_registDateEnd" class="btn btn-narrow" placeholder="终止日期"/>
+      <select class="btn btn-narrow"   style="float:left;margin-right:1%;" ng-model="search_userStatus">
+      <option value="">用户状态</option>·
+      <option value="1">正常用户</option>·
+      <option value="2">测试用户</option>·
+      <option value="3">黑名单</option>·
+      <!--<option ng-repeat="User in Users" value="{{User.userStatus}}">{{User.userStatus}}</option>-->
+    </select>
+      <input class="btn btn-narrow"   style="float:left;margin-right:1%;" type="text" ng-model="search_userName" ng-disabled="forbidEditShare" placeholder="姓名">
+      <input class="btn btn-narrow"   style="float:left;margin-right:1%;" type="text" ng-model="search_phoneNO" ng-disabled="forbidEditShare" placeholder="手机号">
+    </div>
+  </form>
+</div>
+<div style="clear:both;">
+  <input class="btn btn-narrow" type="text" ng-model="search_licenseNO" ng-disabled="forbidEditShare" placeholder="常用车牌">
+</div>
+<table class="top30 table-small">
+  <thead>
+  <tr>
+	    <th>用户姓名</th>
+			<th>用户手机号</th>
+	    <th ng-click="doSort()">注册日期{{sortSign}}</th>
+	    <th>常用车牌号</th>
+	    <th>用户状态</th>
+	    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="User in Users">
+  		<td>{{User.userName}}</td>
+   		<td>{{User.phoneNO}}</td>
+   		<td>{{User.registDate}}</td>
+	    <td>{{User.licenseNO}}</td>
+	    <td>{{userStatusTemp[User.userStatus-1]}}</td>
+	    <td>
+	    	<a href="#/detailuser/{{User.userID}}" class="success btn-xs">详情</a>
+		    <a class="success btn-xs" ng-click="setUserStatus({{User.userID}},{{User.phoneNO}},'{{User.userName}}','{{statusChangeL[User.userStatus-1]}}')">{{userHandleL[User.userStatus-1]}}</a>
+		    <a class="success btn-xs" ng-click="setUserStatus({{User.userID}},{{User.phoneNO}},'{{User.userName}}','{{statusChangeR[User.userStatus-1]}}')">{{userHandleR[User.userStatus-1]}}</a>
+	    </td>
+  </tr>
+  </tbody>
+</table>
+<nav class="ov">
+		<div class="navleft fl">共{{total}}条</div>
+		<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+		</div>
+</nav>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="settingSuceess">
+  <div class="pop-wrap tc success"><!--->
+    设置成功
+  </div>
+</div>
+
+  <div class="pop" ng-show="PopHide">
+    <div class="pop-up ">
+      <h3 class="pop-title">{{title}}</h3>
+    	<div class="pop-main">
+      	<p>您确认将用户<strong>{{context}}</strong>{{userType}}</p>
+    	</div>
+
+    	<div class="pop-btn tc">
+      	<button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+      	<button type="button" class="btn btn-input btn-success" ng-click="ensureSetUserStatus()">确认</button>
+    	</div>
+    </div>
+  </div>
+
+
+
+

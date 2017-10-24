@@ -1,0 +1,110 @@
+<div id="date-box" class="date-box" ng-switch="view" style="left:{{left}};top:{{top}}">
+  <div class="" ng-switch-when="date">
+    <table>
+      <thead>
+      <tr class="date-nav">
+        <th ng-click="prev()"><span class="icon-font">&#xe604;</span></th>
+        <th colspan="5" class="switch" ng-click="setView('month')" ng-bind="date|mFormat:'YYYY MMMM':tz"></th>
+        <th ng-click="next()"><span class="icon-font">&#xe617;</span></th>
+      </tr>
+      <tr class="week-line">
+        <th  ng-repeat="day in weekdays" style="overflow: hidden" ng-bind="day|mFormat:'ddd':tz"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="week in weeks" ng-init="$index2 = $index">
+        <td ng-repeat="day in week">
+          <span
+            ng-class="classes[$index2][$index]"
+            ng-click="selectDate(day)" ng-bind="day|mFormat:'DD':tz"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="year">
+    <table>
+      <thead>
+      <tr class="date-nav date-nav-big">
+        <th ng-click="prev(10)"><span class="icon-font">&#xe604;</span></th>
+        <th colspan="5" class="switch"ng-bind="years[0].year()+' - '+years[years.length-1].year()"></th>
+        <th ng-click="next(10)"><span class="icon-font">&#xe617;</span></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="date-info date-info-big" colspan="7">
+          <span ng-class="classes[$index]"
+                ng-repeat="year in years"
+                ng-click="selectDate(year)" ng-bind="year.year()"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="month">
+    <table>
+      <thead>
+      <tr class="date-nav date-nav-big">
+        <th ng-click="prev()"><span class="icon-font">&#xe604;</span></th>
+        <th colspan="5" class="switch" ng-click="setView('year')" ng-bind="date|mFormat:'YYYY':tz"></th>
+        <th ng-click="next()"><span class="icon-font">&#xe617;</span></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="date-info-big date-info" colspan="7">
+          <span ng-repeat="month in months"
+                ng-class="classes[$index]"
+                ng-click="selectDate(month)"
+                ng-bind="month|mFormat:'MMM':tz"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="hours">
+    <table>
+      <thead ng-show="isShowCurrTab1">
+      <tr class="date-nav">
+          <th  ng-click="prev(24)"><span class="icon-font">&#xe604;</span></th>
+        <th colspan="5" class="switch" ng-click="setView('date')" ng-bind="date|mFormat:'DD MMMM YYYY':tz"></th>
+        <th ng-click="next(24)"><span class="icon-font">&#xe617;</span></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="date-info" colspan="7">
+          <span ng-repeat="hour in hours"
+                ng-class="classes[$index]"
+                ng-click="selectDate(hour)" ng-bind="hour|mFormat:'HH:mm':tz"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="minutes">
+    <table>
+      <thead ng-show="isShowCurrTab2">
+      <tr class="date-nav">
+        <th ng-click="prev()"><span class="icon-font">&#xe604;</span></th>
+        <th colspan="5" class="switch" ng-click="setView('hours')" ng-bind="date|mFormat:'DD MMMM YYYY':tz"></th>
+       <th ng-click="next()"><span class="icon-font">&#xe617;</span></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="date-info " ng-class="{'date-info-big':minutes.length<17,'date-info-small':minutes.length>24}" colspan="7">
+          <span ng-repeat="minute in minutes"
+                ng-class="classes[$index]"
+                ng-click="selectDate(minute)"
+                ng-bind="minute|mFormat:'HH:mm':tz"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="clearDate" ng-show="showDel" ng-click="resetDate()">
+    删除
+  </div>
+</div>

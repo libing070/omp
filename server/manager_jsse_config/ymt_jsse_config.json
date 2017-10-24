@@ -1,0 +1,107 @@
+[
+{
+		key : "localDB",
+		config :
+		{
+			driver : "com.mysql.jdbc.Driver",
+			url : "jdbc:mysql://localhost:3306/yibaohui?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=false",
+			user : "root",
+			password : "123456",
+			initialSize : "5",
+			maxActive : "200",
+			maxIdle : "10",
+			minIdle : "10",
+			maxWait : "500"
+		}
+	},
+	{
+		key : "fscxdb",
+		config :
+		{
+			driver : "com.mysql.jdbc.Driver",
+			url : "jdbc:mysql://113.108.40.12:12007/yibaohui?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=false",
+			user : "ymt",
+			password : "yimiaotong2015",
+			initialSize : "5",
+			maxActive : "200",
+			maxIdle : "10",
+			minIdle : "10",
+			maxWait : "500"
+		}
+	},
+	{
+		key : "fscxdb_slave",
+		config :
+		{
+			driver : "com.mysql.jdbc.Driver",
+			url : "jdbc:mysql://113.108.40.12:12007/yibaohui?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=false",
+			user : "ymt",
+			password : "yimiaotong2015",
+			initialSize : "5",
+			maxActive : "200",
+			maxIdle : "10",
+			minIdle : "10",
+			maxWait : "500"
+		}
+	},
+	{
+		key: "smsModule",
+		config: {
+			httpAddress: "http://192.168.0.59:25009/jsse"
+		}
+	},
+	{
+		key: 'exportReportRoot',
+		config: {
+			localFileDir: "E:/report"
+		}
+	},
+	{
+		key: "authCheck",
+		config: {
+			httpAddress: "http://127.0.0.1:8100"
+		}
+	},
+	{
+		key: "jedis-yibaohui",
+		config: {
+			maxTotal: "1000",
+			maxIdle: "10",
+			minIdle: "1",
+			maxWaitMillis: "30000",
+			testOnBorrow: "true",
+			testOnReturn: "true",
+			testWhileIdle: "true",
+			connectionTimeout: "30000",
+			soTimeout: "30000",
+			maxRedirections: "30000",
+			password: "",
+			masterIPs: [{
+				ip: "192.168.0.59",
+				port: 25003,
+				instance: "instance01",
+				timeout: 20
+			},
+			{
+				ip: "192.168.0.59",
+				port: 25004,
+				instance: "instance02",
+				timeout: 20
+			}]
+		}
+	},{
+		key : "wx_h5",
+		config :
+		{
+			driver : "com.mysql.jdbc.Driver",
+			url : "jdbc:mysql://192.168.0.51:3306/wechat?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=false",
+			user : "ymt",
+			password : "yimiaotong2015",
+			initialSize : "5",
+			maxActive : "200",
+			maxIdle : "10",
+			minIdle : "10",
+			maxWait : "500"
+		}
+	}
+]

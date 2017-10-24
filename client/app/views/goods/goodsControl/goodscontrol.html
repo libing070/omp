@@ -1,0 +1,190 @@
+
+<form ng-submit="saveSort()">
+  <div class="ov">
+    <nav class="nav-bar fl">
+      <span class="icon-font tips">&#xe614</span>
+      <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+      <span class="cur">商品管理</span>
+    </nav>
+    <br/>
+    <br/>
+    <div class="fr tr">
+      <button type="button" class="btn btn-input" ng-click="sort()" ng-show="canSort">编辑排序</button>
+      <button  type="submit" class="btn btn-input btn-success"  ng-show="!canSort">保存排序</button>
+      <a href="#/addgoods/{{ticket}}/{{domain}}" class="btn btn-input  btn-success">+新增商品</a>
+    </div>
+  </div>
+
+
+  <table class="top30 table-small">
+    <thead>
+    <tr>
+      <th width="15%">商品名称</th>
+      <th width="15%">产品类别</th>
+      <th width="20%">
+        <div select-box option="optionSelect" ng-model="status" ng-change="search(status)" class="  select-box" placeholder="状态"></div>
+      </th>
+      <th width="30%">操作</th>
+      <th style="position:relative" width="20%">
+        排序(填写数字) <span id="span" style="display:inline-block;width:20px;height:20px;border-radius:10px;background-color:#ccc;color:#fff;cursor:pointer;margin:0 10px;" ng-mouseenter="showTip()" ng-mouseleave="hideTip()">?</span>
+        <!--<span class="danger" ng-show="!sortInt">排序输入必须是正整数,请重新输入</span>-->
+        <!--<span class="danger" ng-show="sortValue">排序输入必须是小于6位数的正整数,请重新输入</span>-->
+        <!--<span class="danger" ng-show="sortNull">请为{{goodsSortNumberNull}}输入排序数字</span>-->
+        <div id="helpTag" style="position:absolute;top:40px;right:0;border:solid 1px;background-color:#fff;text-align:left;padding:5px 10px;z-index: 999;" ng-show="mouse">
+          <p>排序栏输入数字对应排序的规则：</p>
+          <p>1)按照数字大小由大到小排序;</p>
+          <p>2)数字相同时按照原表格顺序排列；</p>
+          <p>3)未输入数字时的放于最后</p>
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="good in goodsList | filter:{goodsStatus:status!='全部'?status:''}">
+      <td>{{good.goodsName}}</td>
+      <td>{{good.goodsTypeName}}</td>
+      <td>{{good.goodsStatus}}</td>
+      <td style="text-align:left;padding-left:3%">
+        <a href="#/editgoods/{{good.goodsID}}/{{good.goodsCustomNumber}}/{{good.goodsName}}/{{good.goodsTypeID}}/{{good.goodsTypeName}}
+        /{{good.goodsDescription}}/{{good.insureTypeName}}/{{good.insureType}}/{{good.protectPlanID}}/{{good.minIntervalTime}}
+        /{{good.minDay}}/{{good.serviceRate}}/{{good.protectPlanName}}/{{good.protectPlanID}}/{{good.goodsStatus}}/{{ticket}}/{{domain}}
+      ">编辑</a>&nbsp;&nbsp;
+
+        <span class="cur" ng-click="delGoods(good.goodsID)">删除</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="cur" ng-click="handleL(good.goodsID,good.goodsName,good.goodsHandleL,good.goodsStatus)">{{good.goodsHandleL}}</span>&nbsp;&nbsp;
+        <span class="cur" ng-click="handleR(good.goodsID,good.goodsName,good.goodsHandleR,good.goodsStatus)">{{good.goodsHandleR}}</span>
+      </td>
+      <td><input title="必须是小于6位必须的正整数" class="btn btn-sm  btn-number" string-to-number type="number" min="0" max="999999" ng-value="good.priority" ng-model="good.priority" ng-disabled="canSort" ng-focus="enterSortNumber()"></td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+<!--删除提示框-->
+<div class="pop" ng-show="modalGooodsDel">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div  class="pop-wrap tc">
+      您是否确认删除
+    </div>
+    <div  class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closemodalGoods()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureDelGoods()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!--操作商品状态左边按钮提示框-->
+<div class="pop" ng-show="modalGoodsL"> <!---->
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div   class="pop-wrap tc">
+      您是否确认 <strong>{{goodsHandleL}}</strong>{{goodsName}}?
+    </div>
+    <div  class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closemodalGoods()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureHandleGoods()">确认</button>
+    </div>
+  </div>
+</div>
+<!--操作商品状态右边按钮提示框-->
+<div class="pop" ng-show="modalGoodsR"> <!---->
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div   class="pop-wrap tc">
+      您是否确认 <strong>{{goodsHandleR}}</strong>{{goodsName}}?
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closemodalGoods()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureHandleGoods()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success"><!--->
+    操作成功
+  </div>
+</div>
+
+<div class="pop" ng-show="modalGoodsCannotHandle"> <!---->
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div  class="pop-wrap tc">
+      您有商品信息未填写完整，不能上架；
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closemodalGoods()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="modalGoodsCannotHandleO"> <!---->
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div  class="pop-wrap tc">
+      推荐区海报有使用此商品，请先更改推荐区海报，再下架商品。
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closemodalGoods()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="modalGoodsCannotHandleT"> <!---->
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div  class="pop-wrap tc">
+      推荐区海报有使用此商品，请先更改推荐区海报，再灰度上架商品。
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closemodalGoods()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsAlreadyDel">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+
+<div class="pop" ng-show="modalGoodsDelFalse">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div  class="pop-wrap tc">
+      该商品为非草稿状态，不可删除
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closePop()">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="pop " ng-show="uploadHandle">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">数据上传中</h3>
+    <div class="pop-wrap tc">
+      数据上传中，客官歇歇吧！
+    </div>
+    <div class="pop-btn tc">
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,110 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+  <span class="cur" ng-click="goTo('/suppagoods/')">产品与供应商关系 ></span>
+  <span class="cur">编辑产品与供应商关系</span>
+</nav>
+
+<form class="top30" ng-submit="editSuppagoods()">
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>产品类别</label>
+    <div class="input-group-content">
+      <span>{{searchResult.goodsTypeName}}</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>城市</label>
+    <div class="input-group-content">
+      <span>{{searchResult.cityName}}</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>供应商</label>
+    <div class="input-group-content">
+      <span>{{searchResult.supplierName}}</span>
+    </div>
+  </div>
+  
+  <div class="input-group">
+      <label class="input-group-addon"><span class="require">*</span>报价方式</label>
+      <div class="input-group-content">
+      <!--  <input type="text" class="btn btn-input-wide" ng-model="minIntervalTime" ng-focus="code()"> -->
+      	<select class="btn btn-input-wide" ng-model="quoteMode" ng-change="change()">
+          <option value="">请选择</option>
+          <option value="1">人工报价</option>
+          <option value="2">自动报价</option>
+        </select>
+        <span ng-show="quoteModeNull"  class="danger">请选择报价方式</span>
+      </div>
+  </div>
+  <div class="input-group">
+      <label class="input-group-addon"><span class="require">*</span>投保方式</label>
+      <div class="input-group-content">
+      <!--  <input type="text" class="btn btn-input-wide" ng-model="minIntervalTime" ng-focus="code()"> -->
+      	<select class="btn btn-input-wide" ng-model="insuredMode" ng-change="change()">
+          <option value="">请选择</option>
+          <option value="1">人工投保</option>
+          <option value="2">自动投保</option>
+        </select>
+        <span ng-show="insuredModeNull"  class="danger">请选择投保方式</span>
+      </div>
+  </div>
+  
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>联系人姓名</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="contactName" ng-value="contactName">
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>联系人电话</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="contactPhone" ng-value="contactPhone" ng-focus="change()">
+      <span class="danger" ng-show="!isContactPhone">格式输入不正确</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>EMAIL</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="email" ng-value="email" ng-focus="change()">
+      <span class="danger" ng-show="!isEmail">格式输入不正确</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon">&nbsp;</label>
+    <div class="input-group-content">
+      <a href="#/suppagoods" class="btn btn-default btn-input" type="button" >取消</a>
+      &nbsp;&nbsp;<button class="btn btn-input btn-success" type="submit">保存</button>
+    </div>
+  </div>
+</form>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="supplierAlreadySaved">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>
+
+<div class="pop" ng-show="suppAGoodsRepeat">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      产品线+供应商+城市不可重复，请重新选择
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+  </div>
+  <div class="pop-wrap tc">
+    {{errorMsg}}
+  </div>
+  <div class="pop-btn tc">
+    <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+  </div>
+</div>

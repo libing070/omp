@@ -1,0 +1,136 @@
+<div class="ov">
+  <nav class="nav-bar fl">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur">订单 ></span>
+    <span class="cur">报价单管理</span>
+  </nav>
+<br/>
+  <br/>
+  <div class="tr fr">
+    <button class="btn btn-success btn-broad" ng-click="exportTip()">导出EXCEL</button>
+  </div>
+</div>
+
+<div class="top25 narrow-box">
+  <button class="btn btn-input btn-default" style="float:right;" ng-click="findResult()" type="button">查找</button>
+	<select class="btn btn-narrow" ng-model="search_supplierID">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow"  ng-model="search_cityID">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+
+	<select class="btn btn-narrow"  ng-model="search_goodsTypeID">
+		<option value="" ng-selected="selected" selected="selected">产品类型</option>
+		<option value="1" >天天保</option>
+		<option value="2">车险白条</option>
+		<option value="4">交强险</option>
+		<!-- <option ng-repeat="good in goods" value="{{good.goodsTypeID}}">{{good.goodsTypeName}}</option> -->
+	</select>
+	<select class="btn btn-narrow" ng-model="search_lockStatus">
+		<option value="" ng-selected="selected" selected="selected">锁定状态</option>
+		<option  value="1">未锁定</option>
+		<option  value="2">已锁定</option>
+	</select>
+	<select class="btn btn-narrow" ng-model="search_quotationStatus" >
+		<option value="">报价单状态</option>
+		<option  value="1">未报价</option>
+		<option  value="2">已报价</option>
+		<option  value="3">报价失败</option>
+	</select>
+   </div>
+   <div class="row">
+   <div style="float:left;margin:7px">锁定OWNER</div>
+   <div class="col-lg-1"><div class="input-group">
+   <span class="input-group-addon"><input type="checkbox"   ng-model="formDateBox.own">本人</span>
+   <span class="input-group-addon"><input type="checkbox"  ng-model="formDateBox.other">他人</span>
+   <span class="input-group-addon" style="margin-right:0.5%"><input type="checkbox" ng-model="formDateBox.no" >无</span>
+  <input class="btn btn-narrow" type="text" ng-model="search_carOwner" placeholder="输入车主姓名" />
+  <input class="btn btn-narrow" type="text" ng-model="search_phoneNo" placeholder="输入联系电话" />
+   </div>
+   </div>
+</div>
+
+
+<table class="top30 table-small">
+	<thead>
+		<tr>
+			<th>报价单编号</th>
+			<th>产品类型</th>
+			<th>商品名称</th>
+			<th>车主</th>
+			<th>联系电话</th>
+			<th>报价单状态</th>
+			<th>锁定状态</th>
+			<th>锁定OWNER</th>
+			<th>总金额</th>
+			<th ng-click="doSort()">报价单创建时间 {{sortSign}}</th>
+			<th>供应商</th>
+			<th>城市</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="quate in quotationList">
+			<td>{{quate.quotationCustomerNumber}}</td>
+			<td>{{quate.goodsTypeName}}</td>
+			<td>{{quate.goodsName}}</td>
+			<td>{{quate.carOwner}}</td>
+			<td>{{quate.phoneNO	}}</td>
+			<td>{{quate.quotationStatus=="1"?"未报价":quate.quotationStatus=="2"?"已报价":"报价失败"}}</td>
+			<td>{{quate.lockStatus=="1"?"未锁定":"已锁定"}}</td>
+			<td>{{quate.lockOwner}}</td>
+			<td>{{quate.amount}}</td>
+			<td>{{quate.createTime}}</td>
+			<td>{{quate.shortName}}</td>
+			<td>{{quate.cityName}}</td>
+			<td>
+				 <a ng-if="quate.goodsTypeID==1" class="" style="font-weight: bolder;"
+				 href="#/ttbEditManager/{{quate.quotationID}}/{{quate.lockOwner}}/{{quate.lockStatus}}/{{quate.goodsTypeID}}/aaa111/admin">
+				 {{quate.operationStatus==1?'报价':(quate.operationStatus==2?'更改报价':'')}}</a>
+				<a ng-if="quate.goodsTypeID==2" class="" style="font-weight: bolder;"
+				 href="#/cxbtEditManager/{{quate.quotationID}}/{{quate.lockOwner}}/{{quate.lockStatus}}/{{quate.goodsTypeID}}/aaa111/admin">
+				 {{quate.operationStatus==1?'报价':(quate.operationStatus==2?'更改报价':'')}}</a>
+				<a ng-if="quate.goodsTypeID==4" class="" style="font-weight: bolder;"
+				 href="#/jqxEditManager/{{quate.quotationID}}/{{quate.lockOwner}}/{{quate.lockStatus}}/{{quate.goodsTypeID}}/aaa111/admin">
+				 {{quate.operationStatus==1?'报价':(quate.operationStatus==2?'更改报价':'')}}</a>
+				<!-- <a class="" style="font-weight: bolder;" ng-click="loadCurrPage(quate.goodsTypeID,quate.quotationID,quate.lockOwner,quate.lockStatus)">{{quate.operationStatus==1?'报价':(quate.operationStatus==2?'更改报价':'')}}</a>
+			 --></td>   
+		</tr>
+	</tbody>
+</table>
+ <nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+	<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+	</div>
+</nav> 
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+    	<div><small class="tips bottom10"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+        <div class="input-group" ng-repeat="param in params">
+          <span class="input-group-addon">{{param.key}}</span>
+          <div class="input-group-content">{{param.value}}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+    	<button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="exportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div> 
+   <div class="intBox"  ng-show="divFShow" style="width:400px">
+       报价单已被他人锁定 ，需另外选一张报价单进行报价  </div>
+   <div class="intBgColor" ng-show="isIntBgColorShow"></div>

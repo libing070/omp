@@ -1,0 +1,90 @@
+<nav class="nav-bar">
+	<span class="icon-font tips">&#xe614</span>
+	<span class="tips cur" ng-click="goTo('/orderManager/')">订单 ></span>
+	<span class="cur">交易统计</span>
+</nav>
+<br/>
+<div ng-hide="mainBox">
+	<div class="tr">
+		<button class="btn btn-success btn-broad" ng-click="exportExcel()">导出EXCEL</button>
+	</div>
+
+	<nav class="nav">
+		<div ng-class="{1: 'active'}[isActive] " ng-click="setActive(1)">供应商交易统计</div>
+		<div ng-class="{2: 'active'}[isActive]" ng-click="setActive(2)">商品交易统计</div>
+		<div ng-class="{3: 'active'}[isActive] " ng-click="setActive(3)">订单交易统计</div>
+	</nav>
+
+	<div class="top20">
+		<!--<div class="">-->
+		<select class="btn btn-narrow bottom10" ng-model="search_type" ng-change="change()">
+			<option value="" ng-selected="selected" selected="selected">按日统计</option>
+			<option value="2">按月统计</option>
+		</select>
+	</div>
+	<div class="top10">
+		<select class="btn btn-narrow bottom10" ng-model="search_cityID" ng-show="isActive!=1">
+			<option value="" ng-selected="selected" selected="selected">所有城市</option>
+			<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+		</select>
+
+		<span ng-show="(isActive==2 && search_type!=2) || (isActive==1 && search_type!=2)">
+			<input id="search_createTimeStart"  type="text" date-time  view="date" position="absolute" min-date="minDate" max-date="dates.maxDate"  format="YYYY-MM-DD" min-view="date" step="1"  ng-model="dates.search_createTimeStart"   class="btn btn-narrow bottom10"  placeholder="开始日期" readonly="readonly" />
+			<input id="search_createTimeEnd" type="text" date-time  view="date" position="absolute" date-change="changeDate" max-date="maxDate"   min-date="dates.minDate"  min-view="date"  format="YYYY-MM-DD"  step="1"   ng-model="dates.search_createTimeEnd"  ng-disabled="dates.search_createTimeStart.format('YYYY-MM-DD')?false:true" class="btn btn-narrow bottom10"  placeholder="结束日期" readonly="readonly"/>
+		</span>
+
+		<select class="btn btn-narrow bottom10" ng-model="search_month" ng-show="isActive==3 &&search_type!=2">
+			<option value="" ng-selected="selected" selected="selected">当月({{months[0]}})</option>
+			<option ng-repeat="month in monthsInfo" value="{{$index+1}}">{{month}}</option>
+		</select>
+
+		<select class="btn btn-narrow bottom10" ng-model="search_goodsID" ng-show="isActive==3 || (isActive==2 && search_type==2)">
+			<option value="" ng-selected="selected" selected="selected">所有商品</option>
+			<option ng-repeat="good in goods" value="{{good.goodsID}}">{{good.goodsName}}</option>
+		</select>
+
+		<select class="btn btn-narrow bottom10" ng-model="search_supplierID" ng-show="isActive==3 || (isActive==1 && search_type==2)">
+			<option value="" ng-selected="selected" selected="selected">所有供应商</option>
+			<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+		</select>
+
+		<button class="btn btn-input btn-defualt bottom10" type="button" ng-click="findResult()">查找</button>
+
+	</div>
+
+	<div ng-if="isActive==1" class="top25">
+		<section class=" block top25 ">
+			<h2 class="pop-title zone">
+      		<small>交易额  （{{startDate}} 到 {{endDate}}，交易额总计{{total}}元）</small>
+  		    </h2>
+			<div ng-if="search_type!=2" chart small="small" class="chart-big" type="bar"></div>
+			<div ng-if="search_type==2" chart small="small2" class="chart-big" type="line"></div>
+		</section>
+	</div>
+
+	<div ng-if="isActive==2">
+		<section class=" block top25 ">
+			<h2 class="pop-title zone">
+    			<small>交易额  （{{startDate}} 到 {{endDate}}，交易额总计{{total}}元）</small>
+  		    </h2>
+			<div ng-if="search_type!=2" chart small="small3" class="chart-big" type="bar"></div>
+			<div ng-if="search_type==2" chart small="small4" class="chart-big" type="line"></div>
+		</section>
+	</div>
+
+	<div ng-if="isActive==3">
+
+		<section class=" block top25 ">
+			<h2 class="pop-title zone" ng-if="search_type!=2">
+       <small> 订单数量  （{{currentDate}}  新增订单{{monthOrderNumber}}个，交易额总计{{total}}元） </small>
+      </h2>
+			<h2 class="pop-title zone" ng-if="search_type==2">
+  <small>订单数  （{{startDate}} 到 {{endDate}}， 新增订单{{sumOrderNumber}}个， 交易额总计{{total}}元）</small>
+      </h2>
+			<div ng-if="search_type!=2" chart id="op3" small="small5" class="chart-big" type="line"></div>
+			<div ng-if="search_type==2" chart id="op5" small="small6" class="chart-big" type="line"></div>
+		</section>
+
+	</div>
+
+</div>

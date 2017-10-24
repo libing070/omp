@@ -1,0 +1,127 @@
+<div class="ov">
+  <nav class="nav-bar">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur">商品 ></span>
+    <span class="cur">城市管理</span>
+  </nav>
+  <br/>
+  <div class="tr fr">
+    <button class="btn btn-success btn-broad " ng-click="showCity()">+新增城市</button>
+  </div>
+
+</div>
+
+
+
+
+  <form class="top25"   ng-submit="searchCity()">
+    <select class="btn btn-narrow" ng-model="selectCity">
+      <option value="">所有城市</option>
+      <option ng-repeat="city in citysList" value="{{city.cityID}}">{{city.cityName}}</option>
+    </select>
+    <button class="btn btn-input btn-default" type="submit">查找</button>
+  </form>
+
+<table class="top30 table-small">
+  <thead>
+  <tr>
+    <th>城市编码</th>
+    <th>城市</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="city in citys">
+    <td>{{city.cityNumber}}</td>
+    <td>{{city.cityName}}</td>
+    <td><a href="havascript:;" ng-click="delCity(city.cityID)">删除</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<!--<div class="modal-box" ng-show="modalShow">-->
+<!--</div>-->
+
+<div class="pop" ng-show="modalAdd">
+  <form class="pop-up">
+      <h3 class="pop-title">新增城市 <span class="tips"></span></h3>
+    <div class="pop-wrap">
+      <div>城市编码：<input type="text" class="btn btn-pop" ng-model="cityNumber" ng-focus="nameRep()"></div><!-- ng-change="changeName(newCity)" -->
+      <div class="top15">
+        <div ng-show="cityNumberNull" class="danger">请输入城市编码</div>
+        <div ng-show="cityNumberRep" class="danger">城市编码重复，请重新输入</div>
+      </div>
+      <div>城市名称：<input type="text" class="btn btn-pop" ng-model="newCity" ng-focus="nameRep()"></div><!-- ng-change="changeName(newCity)" -->
+      <div class="top15">
+        <div ng-show="enterCity" class="danger">请输入一个城市</div>
+        <div ng-show="enterAgain" class="danger">该城市已存在，请重新输入</div>
+        <!--<div class="danger">-->
+          <!--{{cityAdvise}}-->
+        <!--</div>-->
+      </div>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closeCity()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="addCity()">确认</button><!--ng-disabled="citySubEn"-->
+    </div>
+  </form>
+</div>
+
+<div class="pop" ng-show="modalDel">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      您是否确认删除
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closeCity()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureDelCity()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyDel">
+  <div class="pop-wrap tc success">
+    已删除
+  </div>
+</div>
+
+
+<div class="pop" ng-show="modalDelFalse">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      该城市下供应商已关联产品，不可删除
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="modalDelFalseCar">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      该城市已存在用户车辆记录，不允许删除
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,111 @@
+<nav class="nav-bar">
+	<span class="icon-font tips">&#xe614</span>
+	<span class="tips cur" ng-click="goTo('/gtposter/')">设置 ></span>
+	<span class="cur">首页产品海报管理</span>
+</nav>
+<div class="tr">
+	<button class="btn btn-success btn-broad" ng-click="publishPoster()">发布</button>
+</div>
+
+<table class="top30 table-small">
+	<thead>
+		<tr>
+			<th>产品类别</th>
+			<th>缩略图 <span>(750*300)</span></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="goodsType in goodsTypeList">
+			<td><span ng-show="!goodsType.resourcesUrl" style="text-align:left;border:solid 1px;width:15px;height:15px;border-radius:15px;">稿</span>{{goodsType.goodsTypeName}}</td>
+			<td>
+				<div ng-if="goodsType.picUrl">
+					<span ng-mouseenter="show(goodsType.picUrl,$event)" ng-mouseleave="hideImg()">
+						{{goodsType.picUrl.substring(goodsType.picUrl.lastIndexOf('/')+1)}}
+
+					</span>&nbsp;&nbsp;
+					<span class="danger  btn-sm rel">
+						<!--<input type="file" class="fileBtn" onchange="angular.element(this).scope().setFiles(this)"  data-index="{{$index}}" data-cid="{{goodsType.goodsTypeID}}" />-->
+						<input type="file" class="fileBtn" id="file" onchange="angular.element(this).scope().setFiles(this)"  data-index="{{$index}}" data-cid="{{goodsType.goodsTypeID}}" />
+						更改</span>
+				</div>
+				<div ng-if="!goodsType.picUrl">
+					<span class="success btn-sm rel">
+						<input type="file" class="fileBtn" onchange="angular.element(this).scope().setFiles(this)"  data-index="{{$index}}" data-cid="{{goodsType.goodsTypeID}}" />
+						上传图片
+					</span>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!--确认发布提示框-->
+<div class="pop" ng-show="modalPublish">
+	<div class="pop-up pop-up-small">
+		<h3 class="pop-title">提示</h3>
+		<div class="pop-wrap tc">
+			确认发布后，该城市的顾客端用户将可以在首页中看到重新发布后的产品类别海报，您是确认发布？
+		</div>
+		<div class="pop-btn tc">
+			<button type="button" class="btn btn-input" ng-click="closePoster()">取消</button>
+			<button type="button" class="btn btn-input btn-success" ng-click="ensurePublish()">确认</button>
+		</div>
+	</div>
+</div>
+
+<!-- 展示图片 -->
+<div class="showImg" ng-show="showImg" ng-style="showPos">
+	<p class="arrow"></p>
+	<p class="arrow-inner"></p>
+	<div class="imgBox">
+		<img ng-src="{{showImgSrc}}" />
+	</div>
+
+</div>
+
+<!--有草稿状态的产品，不能发布-->
+<div class="pop" ng-show="modalNotPublish">
+	<div class="pop-up pop-up-small">
+		<h3 class="pop-title">提示</h3>
+		<div class="pop-wrap tc">
+			您有尚未上传海报的项目，请完成所有项目的海报上传再进行发布
+		</div>
+		<div class="pop-btn tc">
+			<button type="button" class="btn btn-input btn-success" ng-click="closePoster()">我知道了</button>
+		</div>
+	</div>
+</div>
+
+<div class="pop" ng-show="hasError">
+	<div class="pop-up pop-up-small">
+		<h3 class="pop-title">提示</h3>
+		<div class="pop-wrap tc">
+			{{errorMsg}}
+		</div>
+		<div class="pop-btn tc">
+			<button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+		</div>
+	</div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyPublish">
+  <div class="pop-wrap tc success"><!--->
+    已发布
+  </div>
+</div>
+
+
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up">
+    <h1 class="pop-title">提示</h1>
+    <div class="pop-wrap tc" >
+      <div class="ib tl">
+        {{context}}
+      </div>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="cancel()">确定</button>
+    </div>
+  </div>
+</div>

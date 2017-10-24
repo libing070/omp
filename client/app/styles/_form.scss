@@ -1,0 +1,40 @@
+.input-group{
+  &:after{clear: both;content: "";display: block;}
+  position: relative;overflow: visible;
+  margin-bottom: 20px;line-height:34px;
+
+  input{
+    text-align: left;
+  }
+  .input-group-addon{float: left;width: $input-group-addon;}
+}
+.input-group-addon {
+  display: block;position: relative;
+   padding:0 $input-group-addon-pading 0 $input-group-addon-require;
+  .require{position: absolute;top:0;left: 6px;font-size: 16px;}
+}
+.input-group-content{
+  margin-left: $input-group-addon+$input-group-addon-pading+$input-group-addon-require;
+}
+.require{
+  color:$brand-danger;
+}
+.has-error{
+  input,select{
+    border-color: $brand-danger;
+  }
+}
+.has-success{
+  input,select{
+    border-color: $brand-ok;
+  }
+}
+.help-block{@extend .ib;color:$brand-danger;}
+
+.form-control{
+  position: relative;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid #ccc; width: 320px;padding: 0 20px;border-radius: 4px;
+  margin-bottom: 20px;
+}

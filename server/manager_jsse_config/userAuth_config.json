@@ -1,0 +1,16 @@
+{
+	"develop": false,
+	"testValicode": "0000",
+	"token_key": "pagodabaiguoyuan",
+	"keyType": {
+		"userIDWithToken": "miUserService-userID",
+		"tokenWithUserID": "miUserService-token",
+		"phoneNumberWithUserID": "miUserService-phoneNumber",
+	},
+	"smsModule":"smsModule",
+	"sendPath":"/sms_module/sendMsg",
+	"validatePath":"/sms_module/validateCode",
+	"codeLenth": 4,
+	"action": ["注册", "编辑密码", "账户绑定", "登录","收货验证码", "退款", "店长收货"],
+	"smsContent": "您此次{action}验证码为{valiCode},此验证码有效期为10分钟。"
+}

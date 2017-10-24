@@ -1,0 +1,82 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/operationAnalysis/')">数据统计 ></span>
+  <span class="cur">运营分析</span>
+</nav>
+<nav class="nav">
+  <div ng-class="{1: 'active'}[isActive] " ng-click="setActive(1)">商品交易统计</div>
+  <div ng-class="{2: 'active'}[isActive]" ng-click="setActive(2)">订单交易统计</div>
+  <div ng-class="{3: 'active'}[isActive]" ng-click="setActive(3)">用户交易数及用户交易转化率</div>
+</nav>
+<h3 style="padding:0px 0px 10px 0px;"><strong>趋势图：</strong></h3>
+<div ng-show="userPropertyAnalysisShow">
+<table class="table-show tl"
+		style="width:100%;background: #e0e0e0; font-size: 15px;">
+		<tr>
+			<td ng-class="{1: 'operationAnactive'}[isActiveDay] " ng-click="setActiveDay(1)" style="width:50px">昨天</td>
+			<td ng-class="{2: 'operationAnactive'}[isActiveDay] "ng-click="setActiveDay(2)" style="width:80px">最近7天</td>
+			<td ng-class="{3: 'operationAnactive'}[isActiveDay] " ng-click="setActiveDay(3)"style="width:100px">最近30天</td>
+			<td ng-class="{4: 'operationAnactive'}[isActiveDay] " ng-click="setActiveDay(4)">最近1年</td>
+		</tr>
+	</table>
+	
+	<div class="top25 narrow-box" ng-show="showFind">
+  <button class="btn btn-input btn-default" style="float:right;" ng-click="findResult()" type="button">查找</button>
+
+	<select class="btn btn-narrow" ng-model="search_supplierID">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow"  ng-model="search_cityID">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+
+	<select class="btn btn-narrow"  ng-model="search_goodsID">
+		<option value="" ng-selected="selected" selected="selected">商品名称</option>
+		<option ng-repeat="good in goods" value="{{good.goodsID}}">{{good.goodsName}}</option>
+	</select>
+</div>
+	<div ng-show="firstShowEcharts" style="width:80%;height:420px">
+		<section class="block top25">
+				  <div  usersnalysischart id="operationMain_1"  style="height:400px;width:100%" small="operationoption5" type="line"></div>
+		</section>
+	</div>
+	<h3><strong>详细数据：</strong></h3>
+	<div style="width:100%;height:40px;background: #e0e0e0;padding:7px">
+   <input id="search_startTime"  type="text" date-time  view="date" position="absolute" min-date="minDate" max-date="dates.maxDate"  format="YYYY-MM-DD" 
+	    	min-view="date" step="1"  ng-model="dates.search_startTime"   class="btn btn-narrow bottom10"  placeholder="" readonly="readonly" />
+			<input id="search_endTime" type="text" date-time  view="date" position="absolute" date-change="changeDate" max-date="maxDate"   min-date="dates.minDate"  
+				min-view="date"  format="YYYY-MM-DD"  step="1"   ng-model="dates.search_endTime"  ng-disabled="dates.search_startTime.format('YYYY-MM-DD')?false:true" 
+				class="btn btn-narrow bottom10"  placeholder="" readonly="readonly"/>
+	<div class="tr fr">
+    <button class="btn btn-success btn-broad" ng-click="exportTip()">导出EXCEL</button>
+  </div>
+	</div>
+</div>
+
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+    	<div><small class="tips bottom10"> 查询条件:{{isReal?'':'无'}}</small></div>
+        <div class="input-group" ng-repeat="param in params">
+          <span class="input-group-addon">{{param.key}}</span>
+          <div class="input-group-content">{{param.value}}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+    	<button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="exportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div> 

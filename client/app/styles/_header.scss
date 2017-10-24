@@ -1,0 +1,37 @@
+.header{
+  @extend .fix-top-left;
+  width: 100%;
+}
+
+.navbar-header-top{
+  height:$headerTopHeight;
+  @extend .zone;
+  line-height:$headerTopHeight;
+  font-size: 12px;
+  background-color:$headerBgColor;
+  color:#fff;
+  a{color: #fff;}
+  .portrait{
+
+    width: 14px;height: 14px;
+    margin: 3px  6px 0 0;
+  }
+
+
+}
+.navbar-header-logo{
+  @extend .zone;
+
+  font-size:18px;
+  background-color:$mainPageBgColor;
+  box-shadow:0 3px  #cfd0d3;
+  border-bottom: 1px solid $borderColor;
+
+}
+#logo{
+  padding: $logoSpace 0;
+  img,a{vertical-align: middle;}
+  img{height: $logoHeight;margin-right: 15px;}
+}
+
+

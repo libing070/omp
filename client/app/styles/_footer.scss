@@ -1,0 +1,7 @@
+.footer{
+  @extend .fix-bottom-left;
+  width: 100%;
+  font-size: 11px;
+  height: $footerHeight;line-height: $footerHeight+3px;
+  background: $mainPageBgColor;
+}

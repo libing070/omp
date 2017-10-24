@@ -1,0 +1,83 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+  <span class="cur">保障方案管理</span>
+</nav>
+<br/>
+<div class="tr">
+  <a href="#/addsupport/{{ticket}}/{{domain}}" class="btn btn-success btn-broad">+新增保障方案</a>
+</div>
+
+<table class="top30 table-small">
+      <thead>
+      <tr>
+        <th>保障方案名称</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="protectPlan in protectPlans">
+        <td>{{protectPlan.protectPlanName}}</td>
+        <td>
+          <a href="#/editsupport/{{protectPlan.protectPlanID}}/{{protectPlan.protectPlanName}}/{{ticket}}/{{domain}}">编辑</a>
+          <a href="javascript:;" ng-click="delSupport(protectPlan.protectPlanID)">删除</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  <div class="pop" ng-show="supportModal">
+    <div class="pop-up pop-up-small">
+      <h3 class="pop-title">提示</h3>
+      <div class="pop-wrap tc">
+        您是否确认删除
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureDelSupport()">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="supplierAlreadyDel">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+
+
+<div class="pop" ng-show="supplierDelFalse">
+    <div class="pop-up pop-up-small">
+        <h3 class="pop-title">提示</h3>
+        <div class="pop-wrap tc">
+            该保障方案已在“商品管理”中有维护，不可删除
+        </div>
+        <div class="pop-btn tc">
+            <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="pop" ng-show="hasError">
+    <div class="pop-up pop-up-small">
+        <h3 class="pop-title">提示</h3>
+        <div class="pop-wrap tc">
+            {{errorMsg}}
+        </div>
+        <div class="pop-btn tc">
+            <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

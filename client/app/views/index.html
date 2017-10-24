@@ -1,0 +1,69 @@
+
+
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <a class="" href="#/index">首页 ></a>
+</nav>
+<form class="top25"   ng-submit="search()">
+  <select class="btn btn-narrow" ng-model="selectCity" >
+    <option value="">城市</option>
+    <option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+  </select>
+  <button class="btn btn-input " type="submit">查找</button>
+</form>
+<article class="ov top25">
+  <aside class="show-right">
+    <section class="block show-right-box">
+      <h2 class="pop-title zone">
+        注册用户
+      </h2>
+      <div class="tc">
+        <div>    昨日新增</div>
+        <div class="show-number top5"> {{yesterdayNewUser}}</div>
+      </div>
+      <div class="zone show-total">目前总计(个): <strong>{{totalUser}}</strong></div>
+    </section>
+    <section class="block show-right-box top25">
+      <h2 class="pop-title zone">
+        订单数
+      </h2>
+      <div class="tc">
+        <div>    昨日新增</div>
+        <div class="show-number top5">{{yesterdayNewOrder}}</div>
+      </div>
+      <div class="zone show-total">目前总计(个): <strong>{{totalOrder}}</strong></div>
+    </section>
+    <section class="block show-right-box top25">
+      <h2 class="pop-title zone">
+        交易额
+      </h2>
+      <div class="tc">
+        <div>    昨日新增</div>
+        <div class="show-number top5">{{yesterdayNewAmount}}</div>
+      </div>
+      <div class="zone show-total">目前总计(元): <strong>{{totalAmount}}</strong></div>
+    </section>
+  </aside>
+  <section class="show-left">
+    <section class=" block  ">
+      <h2 class="pop-title zone">
+        注册用户－<span class="tips">最近一个月趋势图  <small>（{{startDate}}到{{endDate}}&nbsp;&nbsp;新增用户{{monthNewUser}}个）</small></span>
+      </h2>
+      <div chart id="main1" small="option1" type="line"></div>
+      <!--<div id="main" class="chart" ></div>-->
+    </section>
+    <section class="block">
+      <h2 class="pop-title zone">
+        订单数－ <span class="tips">最近一个月趋势图  <small>（{{startDate}}到{{endDate}}&nbsp;&nbsp;新增订单{{monthNewOrder}}个）</small></span>
+      </h2>
+      <div chart id="main2" small="option2" type="line"></div>
+    </section>
+    <section class="block">
+      <h2 class="pop-title zone">
+        交易额－ <span class="tips">最近一个月趋势图  <small>（{{startDate}}到{{endDate}}&nbsp;&nbsp;交易额总计{{monthNewAmount}}元）</small></span>
+      </h2>
+      <div chart id="main3" small="option3" type="line"></div>
+    </section>
+  </section>
+</article>
+

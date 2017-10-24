@@ -1,0 +1,147 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+  <span class="cur" ng-click="goTo('/goodscontrol/')">商品管理 > </span>
+  <span class="cur">编辑商品</span>
+</nav>
+
+<form class="top25"  ng-submit="edit()">
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>商品编码</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide"  ng-value="goodsCustomNumber" ng-model="goodsCustomNumber" ng-disabled="forbidden" ng-focus="code()">
+      <span ng-show="goodsCustomNumberRepeat" class="danger">商品编码重复</span>
+      <span ng-show="goodsCustomNumberNull" class="danger">请填写商品编码</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>商品名称</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-value="goodsName" ng-model="goodsName" ng-focus="code()">
+      <span ng-show="goodsNameRepeat" class="danger">商品名称重复</span></td>
+      <span ng-show="goodsNameNull"  class="danger">请填写商品名称</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>产品类别</label>
+    <div class="input-group-content">
+      <select class="btn btn-input-wide"  ng-value="goodsTypeName" ng-model="goodsTypeID" ng-disabled="forbidden" ng-click="code()">
+        <!--<option value="">产品类别</option>-->
+        <option ng-repeat="line in lines" value="{{line.goodsTypeID}}">{{line.goodsTypeName}}</option>
+      </select>
+      <span ng-show="goodsTypeNull"  class="danger">请选择产品类别</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>商品描述</label>
+    <div class="input-group-content">
+      <textarea class="btn btn-input-wide" style="white-space: normal;" rows="3" cols="20" ng-model="goodsDescription" ng-value="goodsDescription" ng-focus="code()"></textarea>
+      <span ng-show="goodsDescriptionNull"  class="danger">请填写商品描述</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>保险种类</label>
+    <div class="input-group-content">
+      <select class="btn btn-input-wide"  ng-model="insureType" ng-value="insureType" ng-disabled="forbidden" ng-click="code()">
+        <!--<option value="{{insureTypeName}}">{{insureTypeName}}</option>-->
+        <option  ng-repeat="typekind in typeKindList" value="{{typekind.codeValue}}">{{typekind.codeName}}</option>
+      </select>
+      <!--<span ng-show="typeNull"  class="danger">请选择保险种类</span>-->
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>保障方案种类</label>
+    <div class="input-group-content">
+      <select class="btn btn-input-wide"  ng-model="protectPlanID" ng-value="protectPlanName"  ng-disabled="forbidden" ng-click="code()">
+        <!--<option  value="{{protectPlanName}}">{{protectPlanName}}</option>-->
+        <!--<option value="">请选择</option>-->
+        <option  ng-repeat="planKind in palnKindList" value="{{planKind.protectPlanID}}">{{planKind.protectPlanName}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>购买日期与起保日期的最小间隔天数</label>
+    <div class="input-group-content">
+      <!--<input type="text" class="btn btn-input-wide" ng-model="minIntervalTime" ng-value="minIntervalTime" ng-focus="code()">-->
+      <select class="btn btn-input-wide" ng-model="minIntervalTime" ng-value="minIntervalTime"  ng-focus="code()">
+          <option value="1">1天</option>
+          <option value="2">2天</option>
+          <option value="3">3天</option>
+          <option value="4">4天</option>
+          <option value="5">5天</option> 
+        </select>
+      <span ng-show="minIntervalTimeNull" class="danger">请填写起保间隔当天最小时间</span>
+      <span ng-show="!minIntervalTimeInt" class="danger">格式输入不正确</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>最少购买天数</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="minDay" ng-value="minDay" ng-focus="code()">天
+      <span ng-show="minDayNull" class="danger">请填写最少购买天数</span>
+      <span ng-show="!minDayInt" class="danger">格式输入不正确</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>服务费率</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="serviceRate" ng-value="serviceRate"  ng-disabled="forbidden" ng-focus="code()">%
+      <span ng-show="serviceRateNull" class="danger">请填写服务费率</span>
+      <span ng-show="!serviceRateInt" class="danger">格式输入不正确</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon">&nbsp;</label>
+    <div class="input-group-content">
+      <a href="#/goodscontrol" class="btn btn-default btn-input" type="button" >取消</a>
+      &nbsp;&nbsp;<button class="btn btn-input btn-success" type="submit">保存，下一步</button>
+    </div>
+  </div>
+</form>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="saveGoods">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>
+
+<div class="pop" ng-show="showGoodsTip">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      <span ng-show="GoodsCodeRepeat">商品编码重复,请重新填写</span>
+      <span ng-show="GoodsNameRepeat">商品名称重复,请重新填写</span>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+<div class="pop-up pop-up-small">
+  <h3 class="pop-title">提示</h3>
+  <div class="pop-wrap tc">
+  {{errorMsg}}
+  </div>
+  <div class="pop-btn tc">
+  <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

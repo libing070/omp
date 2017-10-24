@@ -1,0 +1,8 @@
+.nav-bar{
+  //@extend .fix;
+  //top:$headerTopHeight+$logoSpace*2+$logoHeight;
+
+  //left: $zoneSpace;
+  height: $navHeight;line-height: $navHeight;font-size: 12px;
+  //margin-bottom: -$navHeight
+}

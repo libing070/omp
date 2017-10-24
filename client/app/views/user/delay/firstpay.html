@@ -1,0 +1,186 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/user/')">用户 ></span>
+  <span class="cur">逾期未还款用户</span>
+</nav>
+<div class="tr">
+  <button class="btn btn-success btn-broad" ng-click="exportExcel()">导出Excel</button>
+</div>
+<nav class="nav">
+  <div ng-class="{2: 'active'}[isActive] " ng-click="setActive(2)">二次未还款</div>
+  <div ng-class="{1: 'active'}[isActive]" ng-click="setActive(1)">首次未还款</div>
+</nav>
+<form class="" ng-submit="searchfirstPayFail()">
+  <div class="top10">
+    <button class="btn btn-input btn-defualt" style="float:right" type="submit">查找</button>
+    <input ng-if="isActive==1" style="float:left;margin-right:1%" type="text" readonly="readonly" date-time view="date"
+    	position="absolute" min-date="minDate" timezone="UTC" format="YYYY-MM-DD" min-view="date" step="1" clear="true"
+    	ng-model="dates.search_curFirstRepayDate" class="btn btn-narrow" placeholder="首次扣款日期"/>
+    <input ng-if="isActive==2"  style="float:left;margin-right:1%" type="text" readonly="readonly" date-time view="date"
+    	position="absolute" min-date="minDate" timezone="UTC" format="YYYY-MM-DD" min-view="date" step="1" clear="true"
+    	ng-model="dates.search_curEndRepayDate" class="btn btn-narrow" placeholder="二次扣款日期"/>
+    <input class="btn btn-narrow"  style="float:left;margin-right:1%" type="text" ng-model="search_carOwner" ng-disabled="forbidEditShare" placeholder="输入车主姓名"> &nbsp;&nbsp;
+    <input class="btn btn-narrow" style="float:left;margin-right:1%"  type="text" ng-model="search_carOwnerPhoneNO" ng-disabled="forbidEditShare" placeholder="手机号"> &nbsp;&nbsp;
+    <input class="btn btn-narrow"  style="float:left;margin-right:1%" type="text" ng-model="search_carLicenseNO" ng-disabled="forbidEditShare" placeholder="车牌号">
+  </div>
+</form>
+
+
+<table class="top30 table-small">
+  <thead>
+  <tr ng-if="isActive==1">
+    <th>车主</th>
+    <th>用户手机号</th>
+    <th>车牌号</th>
+    <th>借款总金额</th>
+    <th>期数</th>
+
+    <th>未还款金额</th>
+    <th>本次应还金额</th>
+    <th>首次扣款结果</th>
+    <th ng-click="doSort()">首次扣款时间{{sortSign}}</th>
+    <th>二次扣款时间</th>
+    <th>操作</th>
+  </tr>
+  <tr ng-if="isActive==2">
+    <th>车主</th>
+    <th>用户手机号</th>
+    <th>车牌号</th>
+    <th>借款总金额</th>
+    <th>期数</th>
+
+    <th>未还款金额</th>
+    <th>本次应还金额</th>
+    <th>二次扣款结果</th>
+    <th ng-click="doSort()">二次扣款时间{{sortSign}}</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-if="isActive==1" ng-repeat="firstPayFail in firstPayFailDetail">
+    <td>{{firstPayFail.carOwner}}</td>
+		<td>{{firstPayFail.carOwnerPhoneNO}}</td>
+		<td>{{firstPayFail.carLicenseNO}}</td>
+		<td>{{firstPayFail.sumAmount}} <span ng-show="firstPayFail.sumAmount">元</span></td>
+		<td>{{firstPayFail.currentTime}}</td>
+
+		<td>{{firstPayFail.noPayAmount}}<span ng-show="firstPayFail.noPayAmount">元</span></td>
+		<td>{{firstPayFail.terminallyAmount}}<span ng-show="firstPayFail.terminallyAmount">元</span></td>
+		<td >失败</td>
+
+		<td >{{firstPayFail.curFirstRepayDate}}</td>
+		<td >{{firstPayFail.curEndRepayDate}}</td>
+    <td>
+      <a class="success btn-xs" ng-click="flowUp({{firstPayFail.hirePurchaseAgreementID}},'{{firstPayFail.carOwner}}')">电话跟进记录({{firstPayFail.followUpRecordCount}})</a>
+    </td>
+  </tr>
+  <tr ng-if="isActive==2" ng-repeat="lastPayFail in lastPayFailDetail">
+    <td>{{lastPayFail.carOwner}}</td>
+    <td>{{lastPayFail.carOwnerPhoneNO}}</td>
+    <td>{{lastPayFail.carLicenseNO}}</td>
+    <td>{{lastPayFail.sumAmount}}<span ng-show="lastPayFail.sumAmount">元</span></td>
+    <td>{{lastPayFail.currentTime}}</td>
+    <td>{{lastPayFail.noPayAmount}} <span ng-show="lastPayFail.noPayAmount">元</span></td>
+    <td>{{lastPayFail.terminallyAmount}} <span ng-show="lastPayFail.terminallyAmount">元</span></td>
+    <td>失败</td>
+    <td>{{lastPayFail.curEndRepayDate}}</td>
+    <td>
+      <a class="success btn-xs"
+         ng-click="giveUp('{{lastPayFail.payOrderCustomerNumber}}','{{lastPayFail.hirePurchaseAgreementID}}',{{lastPayFail.payOrderID}},'{{lastPayFail.carOwner}}','{{lastPayFail.carLicenseNO}}')">退保</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<nav class="ov">
+  <div class="navleft fl">共{{total}}条</div>
+  <div paging class="fr" page="currentPage" page-size="pageSize" total="total"
+       paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)"></div>
+
+</nav>
+
+<div class="pop" ng-show="PopHide">
+  <div class="pop-up pop-up-small">
+    <h1 class="pop-title">{{title}}</h1>
+
+    <div class="pop-wrap tc">{{context}}</div>
+    <div class="pop-btn tc">
+      <button class="btn btn-success btn-input" type="button" ng-click="cancel()">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop-wrap tc success" ng-show="flowUpSaveSuceess">
+  保存成功
+</div>
+<div class="pop-wrap tc success" ng-show="giveUpSuceess">
+  退保成功
+</div>
+
+<!--<div class="pop">-->
+  <div class="pop" ng-show="modalSave">
+  <div class="pop-up pop-up-high">
+    <h3 class="pop-title">{{title}}</h3>
+
+    <div class="  pop-wrap-no-btn ">
+      <div>
+        <p>填写电话跟进记录：</p>
+        <textarea class="top5" ng-model="followUpContent"></textarea>
+        <div class=" tr">
+        	<button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+          <button type="button" class="btn btn-input btn-success" ng-click="ensureFollowUp()">保存</button>
+        </div>
+        <p>历史跟进({{followUpDetail.length}})：</p>
+
+        <div class="tips top5 ti small" ng-repeat="followUp in followUpDetail">
+          <p> {{carOwnerTemp}}--{{followUp.createTime}}</p>
+          <p class="  ">{{followUp.content}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!--<div class="pop" >-->
+  <div class="pop" ng-show="giveUpShow">
+    <div class="pop-up ">
+      <h3 class="pop-title">{{title}} </h3>
+
+      <div class="pop-wrap tc">
+        <div class="ib tl">
+          <p>支付订单编号 ：{{payOrderCustomerNumberTemp}}</p>
+          <p>车主姓名：{{carOwnerTemp}}</p>
+          <p>车牌号 ：{{carLicenseNOTemp}}</p>
+          <p class="top10">是否确认对该支付订单进行退保处理？</p>
+        </div>
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureGiveUp()">退保</button>
+      </div>
+    </div>
+  </div>
+
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+      <div><small class="tips"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+      <div class="input-group" ng-repeat="param in params">
+        <span class="input-group-addon">{{param.key}}</span>
+        <div class="input-group-content">{{param.value}}</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureExportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div>

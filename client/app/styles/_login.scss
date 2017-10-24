@@ -1,0 +1,17 @@
+.login-box{
+  background: url("../images/bg.jpg") no-repeat center;
+  background-size:auto 100%;
+}
+.login{
+  @extend .fix;
+  right: 5.1%;
+  top:18.8%;
+  width: 414-38*2px;
+  height: 351-49*2px;
+  padding: 49px 38px ;
+  background: $mainPageBgColor;
+  border-radius: 6px;
+  .btn{line-height: 2.2;}
+
+}
+.login-label{font-size: 22px;}

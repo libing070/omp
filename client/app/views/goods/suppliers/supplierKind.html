@@ -1,0 +1,156 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <a class="tips cur" ng-click="goTo('/city/')">商品 ></a>
+  <span class="cur" ng-click="goTo('/supplier/')">供应商管理 > </span>
+  <span class="cur">设置险种代码</span>
+</nav>
+
+<form class="top25">
+  <div class="input-group" style="margin-bottom:0;">
+    <label class="input-group-addon"><span class="require"></span>供应商名称：</label>
+    <div class="input-group-content">
+      {{supplier.supplierName}}
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>供应商简称：</label>
+    <div class="input-group-content">
+      {{supplier.shortName}}
+    </div>
+  </div>
+  <div class="tr top30">
+    <button class="btn btn-success btn-broad" ng-click="addNewKind(supplier.supplierID)">+添加险种</button>
+  </div>
+  <table class="top15  table-small">
+    <thead>
+    <tr>
+      <th>平台险种代码</th>
+      <th>平台险种名称</th>
+      <th>供应商险种代码</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="kind in kinds">
+      <td>{{kind.kindNumber}}</td>
+      <td>{{kind.kindName}}</td>
+      <td>{{kind.supplierKindCode}}</td>
+      <td>
+        <a href="javascript:;" ng-click="editKind(kind.supplierID,kind.kindName,kind.supplierKindID,kind.kindID,kind.supplierKindCode)">编辑</a>
+        <a href="javascript:;" ng-click="delKind(kind.supplierKindID)">删除</a></td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+
+<!--编辑险种代码-->
+<div class="pop" ng-show="kindModal"><!-- ng-show="kindModal"-->
+  <div class="pop-up">
+    <h3 class="pop-title">编辑险种代码</h3>
+  <div class="pop-wrap">
+   <p>平台险种：{{kindName}}</p><br/>
+    <p>供应商险种代码：<input type="text" ng-model="editSupplierKindCode" ng-value="editSupplierKindCode" ng-focus="enterName()"></p>
+    <div class="danger" ng-show="modalAlreadyExit">
+      此供应商下的平台险种代码重复，请重新选择
+    </div>
+    <div class="danger" ng-show="modalAlreadyHas">
+      供应商险种代码重复，请重新输入
+    </div>
+    <div class="danger" ng-show="supplierKindNameNull">
+      请输入平台险种代码
+    </div>
+    <div class="danger" ng-show="supplierKindNull">
+      请选择平台险种
+    </div>
+  </div>
+  <div class="pop-btn tc">
+    <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+    <button type="button" class="btn btn-input btn-success" ng-click="ensureSaveKind()">确认</button>
+  </div>
+  </div>
+</div>
+
+
+<!--添加险种代码-->
+<div class="pop" ng-show="kindModalInsert"><!-- ng-show="kindModal"-->
+  <div class="pop-up">
+    <h3 class="pop-title">添加险种代码</h3>
+    <form  ng-submit="insertKind()">
+  <div class="pop-wrap">
+      <p>平台险种：
+        <select class="btn btn-narrow" ng-model="kindID" ng-click="enterName()">
+          <option value="">请选择</option>
+          <option  ng-repeat="newKind in allKind" value="{{newKind.kindID}}">{{newKind.kindName}}</option>
+        </select>
+      </p>
+      <br/>
+      <p>供应商险种代码：<input type="text" ng-model="supplierKindCode" ng-value="supplierKindCode" ng-focus="enterName()"></p>
+    <div class="danger" ng-show="modalAlreadyExit">
+      此供应商下的平台险种代码重复，请重新选择
+    </div>
+    <div class="danger" ng-show="modalAlreadyHas">
+      供应商险种代码重复，请重新输入
+    </div>
+    <div class="danger" ng-show="supplierKindNameNull">
+      请输入平台险种代码
+    </div>
+    <div class="danger" ng-show="supplierKindNull">
+      请选择平台险种
+    </div>
+  </div>
+      <div  class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+        <button type="submit" class="btn btn-input btn-success">确认</button>
+      </div>
+    </form>
+  </div>
+  <!--<div class="modal-footer"></div>-->
+</div>
+</div>
+
+<!--删除险种代码-->
+<div class="pop" ng-show="kindModalDel"><!--  -->
+  <div class="pop-up">
+    <h3 class="pop-title">提示</h3>
+  <div class="pop-wrap tc">
+    <p>删除后该供应商将不能提供该险种的服务，您确定删除？</p><br/>
+    <p>删除后,请仔细检查险种代码列表，不要遗漏险种代码。</p>
+  </div>
+  <div class="pop-btn tc">
+    <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+    <button type="button" class="btn btn-input btn-success" ng-click="ensureDelKind()">确认</button>
+  </div>
+</div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyDel">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadySave">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>
+
+<!--<div class="pop-wrap tc" ng-show="modalKindRep">-->
+  <!--供应商代码重复，请重新输入-->
+<!--</div>-->
+
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+  <div class="pop-wrap tc">
+    {{errorMsg}}
+  </div>
+  <div class="pop-btn tc">
+    <button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+  </div>
+  </div>
+</div>
+
+

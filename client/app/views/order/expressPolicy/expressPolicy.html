@@ -1,0 +1,116 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/orderManager/')">订单 ></span>
+  <span class="cur">保单申请快递</span>
+</nav>
+<br/>
+<div class="tr">
+  <button class="btn btn-success btn-broad" ng-click="exportTip()">导出EXCEL</button>
+</div>
+
+<div class="top25 narrow-box">
+  <button class="btn btn-input btn-default" ng-click="findResult()" type="button" style="float:right">查找</button>
+	<select class="btn btn-narrow" ng-model="search_supplierID" style="float:left;margin-right:1%">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow" ng-model="search_cityID" style="float:left;margin-right:1%">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+	<select class="btn btn-narrow" ng-model="search_kindType" style="float:left;margin-right:1%">
+		<option value="" ng-selected="selected" selected="selected">保障险别</option>
+		<option  value="1">商业险</option>
+		<option  value="2">交强险</option>
+	</select>
+
+	<input type="text" style="float:left;margin-right:1%" date-time view="date" clear="true" position="absolute" format="YYYY-MM-DD HH:mm" readonly="readonly" min-view="minutes" step="1" ng-model="dates.search_startTime" class="btn btn-narrow" placeholder="输入地址变更起始日期" readonly="readonly" id="search_startTime" min-date="minDate" min-date="dates.maxDate" />
+	<input type="text" style="float:left;margin-right:1%" date-time view="date" clear="true" position="absolute" format="YYYY-MM-DD HH:mm" readonly="readonly" min-view="minutes" step="1" ng-model="dates.search_endTime" class="btn btn-narrow" placeholder="终止日期" readonly="readonly" id="search_endTime" date-change="changeDate" max-date="maxDate" min-date="dates.minDate" ng-disabled="dates.search_startTime.format('YYYY-MM-DD')?false:true" />
+  <input type="text" class="btn btn-narrow"  style="margin-right:1%;" ng-model="search_policyNO" placeholder="输入保单号" />
+  <input class="btn btn-narrow" type="text"  style="margin-right:1%;" ng-model="search_carOwner" placeholder="输入收件人姓名" />
+  <input class="btn btn-narrow" type="text"  style="margin-right:1%;" ng-model="search_phoneNo" placeholder="输入联系电话" />
+</div>
+
+
+
+<table class=" table-small top25">
+	<thead>
+		<tr>
+			<th>电子投保单号</th>
+			<th>保单号</th>
+			<th>收件人</th>
+			<th>联系电话</th>
+			<th>保障险别</th>
+			<th ng-click="doSort()">填写邮寄地址日期{{sortSign}}</th>
+			<th>邮寄地址</th>
+			<th>供应商</th>
+			<th>城市</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="order in orders">
+			<td>{{order.policyCustomerNo}}</td>
+			<td>{{order.policyNO}}</td>
+			<td>{{order.receiver}}</td>
+			<td>{{order.receiverPhone}}</td>
+			<td>{{order.kindType==1?'商业险':'交强险'}}</td>
+			<td>{{order.lastUpdate}}</td>
+			<td>{{order.address}}</td>
+			<td>{{order.supplierShortName}}</td>
+			<td>{{order.cityName}}</td>
+		</tr>
+	</tbody>
+</table>
+<nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+	<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+	</div>
+</nav>
+
+<div class="pop" ng-show="PopHide">
+	<div class="pop-up">
+		<h1 class="pop-title">{{title}}</h1>
+		<div class="tc">
+			<div class="wss-main">{{context}}
+			<div style="margin-top: 26px;">
+				<button class="btn btn-success" style="width: 75px;" ng-click="cancel()">确定</button>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--操作成功冒泡-->
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadySuccess">
+  <div class="pop-wrap tc success">
+    {{context}}
+  </div>
+</div>
+
+
+<!--导出EXCEL-->
+<div class="pop" ng-show="popExport">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+    	<div><small class="tips bottom10"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+        <div class="input-group" ng-repeat="param in params">
+          <span class="input-group-addon">{{param.key}}</span>
+          <div class="input-group-content">{{param.value}}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+    	<button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="exportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div>

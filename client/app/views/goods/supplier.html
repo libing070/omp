@@ -1,0 +1,107 @@
+<div class="ov">
+  <nav class="nav-bar fl">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+    <span class="cur">供应商管理</span>
+  </nav>
+  <br/>
+  <br/>
+  <a href="#/addSupplier/{{ticket}}/{{domain}}" class="btn btn-success btn-broad fr">+新增供应商</a>
+</div>
+
+
+
+<table class="top30  table-small">
+      <thead>
+      <tr>
+        <th>供应商编码</th>
+        <th>供应商名称</th>
+        <th>简称</th>
+        <th>客服电话</th>
+        <th>理赔电话</th>
+        <th>合作开始时间</th>
+        <th>合作结束时间</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="supplier in suppliers">
+        <td>{{supplier.supplierNumber}}</td>
+        <td>{{supplier.supplierName}}</td>
+        <td>{{supplier.shortName}}</td>
+        <td>{{supplier.contactPhone}}</td>
+        <td>{{supplier.claimPhone}}</td>
+        <td>{{supplier.cooperationStartTime}}</td>
+        <td>{{supplier.cooperationEndTime}}</td>
+        <td>
+          <a href="#/editSupplier/{{supplier.supplierID}}/{{ticket}}/{{domain}}">编辑</a>
+          <a href="javascript:;" ng-click="delSupplier(supplier.supplierID)">删除</a>
+          <span>|</span>
+          <a href="#/supplierKind/{{supplier.supplierID}}/{{ticket}}/{{domain}}">设置险种代码</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  <div class="pop" ng-show="supplierModal">
+    <div class="pop-up pop-up-small">
+      <h3 class="pop-title">提示</h3>
+      <div class="pop-wrap tc">
+        您是否确认删除
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureDelSupplier()">确认</button>
+      </div>
+    </div>
+  </div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="supplierAlreadyDel">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+
+
+<div class="pop" ng-show="supplierNotFalse">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      该供应商在“产品与供应商关系”里有维护，不允许删除
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="supplierNotFalseOrder">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      该供应商已存在订单记录，不允许删除
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

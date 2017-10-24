@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/main.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <!--<base href="/">-->
+  </head>
+  <body ng-app="clientApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">请升级浏览器，推荐使用chrome！</p>
+    <![endif]-->
+    <div class="loader pop" loading></div>
+    <!-- header start -->
+    <header class="header">
+          <div class="navbar-header-top">
+            <div class="fr" >
+               <span>01189719</span>&nbsp;|&nbsp;<span onclick="window.sessionStorage.setItem('token',false);window.location.href='login.html'">退出</span>
+            </div>
+            <div class="portrait fr"><img src="images/circle.png"/></div>
+          </div>
+          <div class="navbar-header-logo">
+            <div id="logo">
+              <img   src="images/logo.png"/>
+              <a href="#">YMT分时车险平台V1.0</a>
+            </div>
+          </div>
+    </header>
+    <!-- header end -->
+    <!--footer start-->
+    <footer class="footer tc">
+      深圳易秒通网络科技有限公司
+    </footer>
+    <!--footer end-->
+    <!--menu start-->
+    <div menus></div>
+    <!--menu end-->
+    <article class="main">
+    	<!--<article class="content" style="margin: 0; height: 100%;" ng-view>-->
+      <article class="content" ng-view>
+        <!--main start-->
+
+
+        <!--main end-->
+      </article>
+    </article>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!--<script src="scripts/common/bootstrap-datetimepicker.js"></script>-->
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/factory/showError.js"></script>
+    <script src="scripts/factory/openCity.js"></script>
+    <script src="scripts/factory/httpUtils.js"></script>
+    <script src="scripts/factory/clone.js"></script>
+    <script src="scripts/factory/userAuth.js"></script>
+   <!--  <script src="scripts/factory/YMT_JHashMap.js"></script> -->
+
+    <script src="scripts/directive/string2num.js"></script>
+    <script src="scripts/common/date-picker/moment.js"></script>
+    <script src="scripts/common/date-picker/moment-timezone-with-data.js"></script>
+    <script src="scripts/common/date-picker/datePicker.js"></script>
+    <script src="scripts/common/date-picker/datePickerUtils.js"></script>
+    <script src="scripts/common/date-picker/dateRange.js"></script>
+    <script src="scripts/common/date-picker/input.js"></script>
+    <script src="scripts/directive/selectCity.js"></script>
+    <script src="scripts/directive/paging.js"></script>
+    <script src="scripts/directive/menu.js"></script>
+    <script src="scripts/directive/select.js"></script>
+    <script src="scripts/directive/loading.js"></script>
+
+    <script src="scripts/common/echarts.js"></script>
+    <script src="scripts/directive/chart.js"></script>
+    <script src="scripts/directive/operationAnalysisChart.js"></script>
+
+    <script src="scripts/controllers/index.js"></script>
+		<!--设置-->
+    <script src="scripts/controllers/system/productPoster/gtposter.js"></script>
+    <script src="scripts/controllers/system/recommendPoster/rmposter.js"></script>
+    <script src="scripts/controllers/system/recommendPoster/addrmposter.js"></script>
+    <script src="scripts/controllers/system/recommendPoster/editrmposter.js"></script>
+    <script src="scripts/controllers/system/recommendPoster/setactivity.js"></script>
+    <script src="scripts/controllers/system/recommendPoster/uploadPoster.js"></script>
+    <script src="scripts/controllers/system/platNature/platnature.js"></script>
+    <script src="scripts/controllers/system/calendar/calendar.js"></script>
+
+		<!--商品-->
+    <script src="scripts/controllers/goods/city.js"></script>
+    <script src="scripts/controllers/goods/supplier.js"></script>
+    <script src="scripts/controllers/goods/suppliers/addSupplier.js"></script>
+   <!-- <script src="scripts/controllers/goods/suppliers/delSupplier.js"></script>-->
+    <script src="scripts/controllers/goods/suppliers/editSupplier.js"></script>
+    <script src="scripts/controllers/goods/suppliers/supplierKind.js"></script>
+    <script src="scripts/controllers/goods/suppAgoods/suppagoods.js"></script>
+    <script src="scripts/controllers/goods/suppAgoods/addsuppagoods.js"></script>
+    <script src="scripts/controllers/goods/suppAgoods/editsuppagoods.js"></script>
+    <script src="scripts/controllers/goods/support/support.js"></script>
+    <script src="scripts/controllers/goods/support/addsupport.js"></script>
+    <script src="scripts/controllers/goods/support/editsupport.js"></script>
+    <script src="scripts/controllers/goods/goodsControl/goodscontrol.js"></script>
+    <script src="scripts/controllers/goods/goodsControl/addgoods.js"></script>
+    <script src="scripts/controllers/goods/goodsControl/editgoods.js"></script>
+    <script src="scripts/controllers/goods/goodsControl/goodsupdatepicture.js"></script>
+    <script src="scripts/controllers/goods/recommendGoods/recommendgoods.js"></script>
+
+    <!--订单-->
+    <script src="scripts/controllers/order/orderManager/orderManager.js"></script>
+    <script src="scripts/controllers/order/quoteManager/quoteManager.js"></script>
+    <script src="scripts/controllers/order/quoteManager/cxbtEditManager.js"></script>
+    <script src="scripts/controllers/order/quoteManager/jqxEditManager.js"></script>
+    <script src="scripts/controllers/order/quoteManager/ttbEditManager.js"></script>
+    <script src="scripts/controllers/order/refusePolicy/refusePolicy.js"></script>
+    <script src="scripts/controllers/order/errorProposal/errorProposal.js"></script>
+    <script src="scripts/controllers/order/prePayProposal/prePayProposal.js"></script>
+    <script src="scripts/controllers/order/expressPolicy/expressPolicy.js"></script>
+    <script src="scripts/controllers/order/statistics/statistics.js"></script>
+
+    <!--费用-->
+    <script src="scripts/controllers/fee/listSettlement.js"></script>
+    <script src="scripts/controllers/fee/listPaymentDetail.js"></script>
+
+    <!--用户-->
+    <script src="scripts/controllers/user/statistics/index.js"></script>
+    <!--用户详情-->
+    <script src="scripts/controllers/user/user.js"></script>
+    <script src="scripts/controllers/user/userControl/detailuser.js"></script>
+    <script src="scripts/controllers/user/userControl/billdetail.js"></script>
+    <script src="scripts/controllers/user/userControl/kinddetail.js"></script>
+    <!--逾期未还款用户-->
+    <script src="scripts/controllers/user/delay/firstpay.js"></script>
+	
+    <!--H5微信端数据统计-->
+    <script src="scripts/controllers/h5recode/recodeManager/recodeManager.js"></script>
+
+		<!--精友库-->
+		<script src="scripts/controllers/system/JYK.js"></script>
+<!-- 数据统计 -->
+    <script src="scripts/controllers/operation/operationAnalysis/operationAnalysis.js"></script>
+    <script src="scripts/controllers/operation/userAnalysis/userAnalysis.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<nav class="nav-bar f1">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/user/')">用户 ></span>
+  <span class="cur">用户统计</span>
+</nav>
+<div ng-hide="mainBox">
+	<nav class="nav">
+		<div ng-class="{1: 'active'}[isActive] " ng-click="setActive(1)">新增用户趋势</div>
+		<div ng-class="{2: 'active'}[isActive]" ng-click="setActive(2)">供应商用户量比对</div>
+		<div ng-class="{3: 'active'}[isActive] " ng-click="setActive(3)">用户还款分析</div>
+		<div ng-class="{4: 'active'}[isActive]" ng-click="setActive(4)">坏账账单分析</div>
+	</nav>
+	<!-------------------------1新增用户趋势----------------搜索条件--------------------------->
+	<div class="top20" ng-show="isActive==1">
+			<select class="btn btn-narrow bottom10" ng-model="search_type" ng-change="change()">
+					<option value="" ng-selected="selected" selected="selected">按日统计</option>
+					<option value="2">按月统计</option>
+			</select>
+	</div>
+	
+	<div class="top10">
+			<!-------------------------1新增用户趋势----------------搜索条件--------------------------->
+			<select class="btn btn-narrow bottom10"   ng-model="search_month" ng-show="isActive==1 && search_type!=2">
+	    		<option value="" ng-selected="selected" selected="selected">当月({{months[0]}})</option>
+					<option ng-repeat="month in monthsInfo" value="{{$index+1}}">{{month}}</option>
+			</select>
+	    <select class="btn btn-narrow bottom10"   ng-model="search_supplierID" ng-show="isActive==1">
+	      	<option value="">所有供应商</option>
+	      	<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName}}</option>
+	    </select>
+	    <!-------------------------2供应商用户量比对-------------搜索条件------------------------------>
+	    <span ng-show="isActive==2">
+	    <input id="search_startTime"  type="text" date-time  view="date" position="absolute" min-date="minDate" max-date="dates.maxDate"  format="YYYY-MM-DD" 
+	    	min-view="date" step="1"  ng-model="dates.search_startTime"   class="btn btn-narrow bottom10"  placeholder="开始日期" readonly="readonly" />
+			<input id="search_endTime" type="text" date-time  view="date" position="absolute" date-change="changeDate" max-date="maxDate"   min-date="dates.minDate"  
+				min-view="date"  format="YYYY-MM-DD"  step="1"   ng-model="dates.search_endTime"  ng-disabled="dates.search_startTime.format('YYYY-MM-DD')?false:true" 
+				class="btn btn-narrow bottom10"  placeholder="结束日期" readonly="readonly"/>
+	   	</span>
+			<!-------------------------3用户还款分析--------------搜索条件----------------------------->
+			<!-------------------------4坏账账单分析--------------搜索条件----------------------------->
+			<select class="btn btn-narrow bottom10" ng-model="search_goodsID" ng-show="isActive==3 || isActive==4">
+					<option value="" ng-selected="selected" selected="selected">所有分期商品</option>
+					<option ng-repeat="good in goods" value="{{good.goodsID}}">{{good.goodsName}}</option>
+			</select>
+			<select class="btn btn-narrow bottom10" ng-model="search_cityID" ng-show="isActive==3 || isActive==4">
+	        <option value="">所有城市</option>
+	        <option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	    </select>
+	    <input ng-show="isActive==3 || isActive==4" type="text" id="search_payDateStart" style="float:left;margin-right:1%;" readonly="readonly" date-time view="date"
+      	position="absolute" min-date="minDate" min-date="payDates.maxDate" format="YYYY-MM-DD" min-view="date" step="1" clear="true" 
+      	ng-model="payDates.search_payDateStart" class="btn btn-narrow" placeholder="还款日期-始"/>
+      <input ng-show="isActive==3 || isActive==4" type="text" id="search_payDateEnd" style="float:left;margin-right:1%;" readonly="readonly" date-time view="date"
+      	position="absolute" date-change="changeDate" max-date="maxDate"   min-date="payDates.minDate"  format="YYYY-MM-DD" min-view="date" step="1" clear="true"
+      	ng-model="payDates.search_payDateEnd" class="btn btn-narrow" placeholder="还款日期-终" ng-disabled="payDates.search_payDateStart.format('YYYY-MM-DD')?false:true"/>
+			
+			<button class="btn btn-input btn-defualt bottom10" type="button" ng-click="findResult()">查找</button>
+	</div>
+	
+	<!-------------------------1新增用户趋势--------------绘图----------------------------->
+	<div ng-if="isActive==1" >
+		<section class="block top25">
+		  	<h2 class="pop-title zone" ng-if="search_type!=2">
+		      	新增用户数量（{{currentDate}}，   新增用户{{newUserNumber}}个， 累计{{allUserNumber}}个）
+		   	</h2>
+		  	<h2 class="pop-title zone" ng-if="search_type==2">
+		      	新增用户数量（{{startDate}}到{{endDate}}，新增用户{{newUserNumber}}个， 累计{{allUserNumber}}个）
+		   	</h2>
+		   	<div ng-if="search_type!=2" chart id="user1" small="userDay" class="chart-big" type="line"></div>
+				<div ng-if="search_type==2" chart id="user2" small="userMonth" class="chart-big" type="line"></div>
+		</section>
+	</div>
+	<!-------------------------2供应商用户量比对----------绘图--------------------------------->
+	<div ng-if="isActive==2" >
+		<section class=" block top25 ">
+      <h2 class="pop-title zone">
+        	 新增用户数量（{{startDate}}到{{endDate}}, 累计{{sumUserNum}}个）</small></span>
+      </h2>
+      <div chart id="ani" small="registUserForSupplier" class="chart-big" type="bar"></div>
+    </section>
+	</div>	
+		<!-------------------------3用户还款分析---------------列表---------------------------->
+	<div ng-if="isActive==3" >
+		<table class="top30 table-small" >
+      <thead>
+      <tr >
+        <th>账单类型</th>
+        <th>数量</th>
+        <th>垫付金额(元)</th>
+        <th>已还款金额(元)</th>
+        <th>未还款金额(元)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="payCondition in payConditionDetail">
+        <td>{{billTypeTemp[payCondition.billType-1]}}</td>
+        <td>{{payCondition.billNumber}}</td>
+        <td>{{payCondition.advancedAmount}} <span ng-show="payCondition.advancedAmount">元</span></td>
+        <td>{{payCondition.payfee}}<span ng-show="payCondition.payfee">元</span></td>
+        <td>{{payCondition.surplusPayfee}}<span ng-show="payCondition.surplusPayfee">元</span></td>
+      </tr>
+      	<td>总计</td>
+				<td>{{billNumberSum}}</td>
+				<td>{{advancedAmountSum}}元</td>
+				<td>{{payfeeSum}}元</td>
+				<td>{{surplusPayfeeSum}}元</td>
+      </tbody>
+    </table>
+  </div>  
+  <div ng-if="isActive==4"> 
+    <!-------------------------4坏账账单分析--------------列表----------------------------->
+    <table class="top30 table-small" >
+	    <thead>
+			<tr >
+				<th>期数</th>
+				<th>坏帐还款计划数量</th>
+				<th>垫付金额(元)</th>
+				<th>已还款金额(元)</th>
+				<th>未还款金额(元)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="payPlanForFail in payPlanForFailDetail">
+				<td>{{payPlanForFail.currentTime}}</td>
+				<td>{{payPlanForFail.billNumber}}</td>
+				<td>{{payPlanForFail.advancedAmount}}<span ng-show="payPlanForFail.advancedAmount">元</span></td>
+				<td>{{payPlanForFail.payfee}}<span ng-show="payPlanForFail.payfee">元</span></td>
+				<td>{{payPlanForFail.surplusPayfee}}<span ng-show="payPlanForFail.surplusPayfee">元</span></td>
+			</tr>
+			<tr >
+				<td>总计</td>
+				<td>{{billNumberSum}}</td>
+				<td>{{advancedAmountSum}}元</td>
+				<td>{{payfeeSum}}元</td>
+				<td>{{surplusPayfeeSum}}元</td>
+			</tr>
+		</tbody>
+    </table>
+	</div>
+
+</div>

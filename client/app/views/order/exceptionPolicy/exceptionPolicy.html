@@ -1,0 +1,112 @@
+
+<div class="top15 narrow-box">
+	<select class="btn btn-narrow" ng-model="search_supplierID">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow" ng-model="search_cityID">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+	<select class="btn btn-narrow" ng-model="search_goodsID">
+		<option value="" ng-selected="selected" selected="selected">商品名称</option>
+		<option ng-repeat="good in goods" value="{{good.goodsID}}">{{good.goodsName}}</option>
+	</select>
+
+
+	<input type="text" class="btn btn-narrow" ng-model="search_policyCustomerNo" placeholder="电子保单号" />
+
+	<input class="btn btn-narrow" type="text" ng-model="search_carOwner" placeholder="输入车主姓名" />
+	<input class="btn btn-narrow" type="text" ng-model="search_phoneNo" placeholder="输入联系电话" />
+	<button class="btn btn-input btn-info" ng-click="findResult()" type="button">查找</button>
+<div class="tr">
+	<button class="btn btn-success btn-broad" ng-click="exportExcel()">导出转保单失败EXCEL</button>
+	<button class="btn btn-success btn-broad" ng-click="exportExcel()">导出转投保单失败EXCEL</button>
+</div>
+</div>
+
+<table class=" table-small">
+	<thead>
+		<tr>
+			<th>电子投保单号</th>
+			<th>商品名称</th>
+			<th>险种类别</th>
+			<th>车主</th>
+			<th>联系电话</th>
+			<th>订单金额</th>
+			<th ng-click="doSort()">系统异常时间{{sortSign}}</th>
+			<th>状态</th>
+			<th>供应商</th>
+			<th>城市</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="order in orders">
+			<td>{{order.policyID }}</td>
+			<!--<td>{{order.goodsName}}</td>-->
+			<td>{{order.isGift == 'Y' ? order.goodsName+'（赠品）' : order.goodsName}}</td>
+			<td>{{type[order.kindType-1]}}</td>
+			<td>{{order.carOwner}}</td>
+			<td width="80">{{order.phoneNO}}</td>
+			<td>{{order.payFee}}</td>
+			<td>{{order.errorTime}}</td>
+			<td>系统转投保单失败</td>
+			<td>{{order.supplierShortName}}</td>
+			<td>{{order.cityName}}</td>
+			<td>
+				<span ng-if="(order.goodsTypeID==1 && order.isGift=='Y') || order.goodsTypeID!=1">
+				<a class="btn btn-success btn-xs" ng-click="operation($index,1)">取消订单</a>
+				</span>
+				<span ng-if="order.goodsTypeID==1 && order.isGift=='N'">
+				<a class="btn btn-success btn-xs" ng-click="operation($index,2)">退费</a>
+				</span>
+				<a class="btn btn-success btn-xs" ng-click="operation($index,2)">投保成功</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+	<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+	</div>
+</nav>
+
+<div class="pop" ng-show="PopHide">
+	<div class="pop-up">
+		<h1 class="pop-title">{{title}}</h1>
+		<div class="tc">
+			<div class="pop-main">{{context}}</div>
+			<div>
+				<button class="btn btn-success" style="width: 75px;" ng-click="cancel()">确定</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!--新增-->
+<!--操作成功冒泡-->
+<div class="pop-wrap tc success" ng-show="modalAlreadySuccess">
+	{{context}}
+</div>
+
+<div class="pop"  ng-show="popShow">
+    <div class="pop-up">
+        <h1 class="pop-title">提示</h1>
+        <div class="tl">
+            <div class="pop-main" style="margin-left: 150px;width: 160px;">
+            	<div>商品名称：{{goodsName}}</div>
+            	<div>电子投保单号：{{policyID}}</div>
+            	<div>车主：{{carOwner}}</div>
+            	<div>{{content}}</div>
+           
+            <div style="margin-top: 20px;">
+                <button class="btn btn-default" ng-click="cancelPop()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-success" ng-click="confirm()">确定</button>
+            </div>
+             </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/gtposter/')">设置 ></span>
+  <span class="cur">精友库文件更新</span>
+</nav>
+
+<div class="tr">
+  <!--<button class="btn btn-success btn-broad" ng-click="">上传</button>&nbsp;&nbsp;-->
+  	<span class="success btn-sm rel">
+						<input type="file" class="fileBtn" onchange="angular.element(this).scope().setFiles(this)"  data-index="{{$index}}" data-cid="{{}}" />
+						<span class="btn btn-success btn-broad" style="text-align:center;">上传</span>
+    </span>
+  <button class="btn btn-success btn-broad" ng-click="publishFile()">发布</button>
+</div>
+
+  <table class="top30 table-small">
+    <thead>
+    <tr>
+      <th>名称</th>
+      <th>更新时间</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="file in files">
+      <td style="position:relative;"><span ng-show="file.status=='1'  || file.status==1" style="position:absolute;left:0;text-align:center;border:solid 1px;width:20px;height:20px;border-radius:20px;">稿</span>{{file.name}}</td>
+      <td>{{file.lastUpdate}}</td>
+      <td>{{file.statusT}}</td>
+      <td>
+        <a href="javascript:;" ng-click="getXML(file.httpUrl)">下载</a>&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" ng-show="file.status==1 || file.status=='1'" ng-click="delFile(file.id)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+<div class="pop" ng-show="modalDel">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      确认删除此文件
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="closeModal()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureDelFile()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyDel">
+  <div class="pop-wrap tc success"><!--->
+    已删除
+  </div>
+</div>
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadyPub">
+  <div class="pop-wrap tc success"><!--->
+    已发布
+  </div>
+</div>
+
+<div class="pop" ng-show="NoCFile">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorTip}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeModal()">确认</button>
+    </div>
+  </div>
+</div>

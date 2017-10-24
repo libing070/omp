@@ -1,0 +1,146 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/orderManager/')">订单 ></span>
+  <span class="cur">投保单拒保处理</span>
+</nav>
+<br/>
+<div class="tr">
+  <button class="btn btn-success btn-broad" ng-click="exportTip()">导出EXCEL</button>
+</div>
+
+<div class="top25 narrow-box">
+  <button class="btn btn-input btn-default" style="float:right" ng-click="findResult()" type="button">查找</button>
+	<select class="btn btn-narrow" style="float:left;margin-right:1%;" ng-model="search_supplierID">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow"  style="float:left;margin-right:1%;" ng-model="search_cityID">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+
+	<select class="btn btn-narrow"  style="float:left;margin-right:1%;" ng-model="search_goodsID">
+		<option value="" ng-selected="selected" selected="selected">商品名称</option>
+		<option ng-repeat="good in goods" value="{{good.goodsID}}">{{good.goodsName}}</option>
+	</select>
+
+	<input class="btn btn-narrow"  style="float:left;margin-right:1%;" type="text" ng-model="search_carOwner" placeholder="输入车主姓名" />
+	<input class="btn btn-narrow"  style="float:left;margin-right:1%;" type="text" ng-model="search_phoneNo" placeholder="输入联系电话" />
+  <input type="text" class="btn btn-narrow" ng-model="search_policyCustomerNo" placeholder="电子投保单号" />
+
+</div>
+
+
+
+<table class=" table-small top20">
+	<thead>
+		<tr>
+			<th>电子投保单号</th>
+			<th>商品名称</th>
+			<th>险种类别</th>
+			<th>车主</th>
+			<th>联系电话</th>
+			<th>订单金额</th>
+			<th ng-click="doSort()">拒保时间{{sortSign}}</th>
+			<th>状态</th>
+			<th>供应商</th>
+			<th>城市</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="order in orders">
+			<td>{{order.policyCustomerNo }}</td>
+			<!--<td>{{order.goodsName}}</td>-->
+			<td>{{order.isGift == 'Y' ? order.goodsName+'（赠品）' : order.goodsName}}</td>
+			<td>{{type[order.kindType-1]}}</td>
+			<td>{{order.carOwner}}</td>
+			<td width="80">{{order.phoneNO}}</td>
+			<td>{{order.payFee}} <span ng-show="order.payFee">元</span></td>
+			<td>{{order.refuseTime}}</td>
+			<td>{{order.policyStatus == '6'? '核保不通过' : ''}}</td>
+			<td>{{order.supplierShortName}}</td>
+			<td>{{order.cityName}}</td>
+			<td>
+				<span ng-if="order.goodsTypeID=='1'">		<!--天天保（商业险）-->
+					<a class="danger" ng-click="operation($index, 'refundOrder')">退费</a>
+				</span>
+				<span ng-if="order.goodsTypeID=='2' || order.isGift=='Y'">		<!--车险白条或者赠送险（天天保）-->
+					<a class="success" ng-click="operation($index, 'cancelOrder')">取消订单</a>
+				</span>
+				<span ng-if="order.goodsTypeID=='4'">		<!--交强险-->
+					<a class="danger" ng-click="operation($index, 'refundOrder')">退费</a>
+				</span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+	<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+	</div>
+</nav>
+
+
+
+
+<div class="pop" ng-show="PopHide">
+	<div class="pop-up">
+		<h1 class="pop-title">提示</h1>
+		<div class="tc">
+			<div class="pop-main">{{context}}</div>
+			<div>
+				<button class="btn btn-success" style="width: 75px;" ng-click="cancel()">确定</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!--新增-->
+<!--操作成功冒泡-->
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalAlreadySuccess">
+  <div class="pop-wrap tc success">
+    {{context}}
+  </div>
+</div>
+
+
+
+<div class="pop" ng-show="popExport">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+    	<div><small class="tips bottom10"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+        <div class="input-group"  ng-repeat="param in params">
+          <span class="input-group-addon">{{param.key}}</span>
+          <div class="input-group-content">{{param.value}}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+    	<button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="exportExcel()">确认导出</button>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="pop"  ng-show="popShow">
+    <div class="pop-up">
+        <h1 class="pop-title">提示</h1>
+      <div class="pop-wrap tc" >
+        <div class="ib tl">
+          <div>商品名称：{{goodsName}}</div>
+          <div class="top5">电子投保单号：{{policyCustomerNo}}</div>
+          <div class="top5">车主：{{carOwner}}</div>
+          <div  class="danger top20">{{content}}</div>
+        </div>
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="cancelPop()">关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-input btn-success" ng-click="confirm()">确定</button>
+      </div>
+    </div>
+</div>

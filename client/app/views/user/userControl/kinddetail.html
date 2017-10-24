@@ -1,0 +1,61 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/user/')">用户 ></span>
+  <span class="cur" ng-click="goTo('/user/')">用户查询 ></span>
+  <a href="javascript:history.back()">用户详情 ></a>
+  <a class="cur">保障详情</a>
+</nav>
+<br />
+<table class="table-show tl" style="width:80%">
+	<tr>
+		<td><strong>电子投保单号</strong>
+		</td>
+		<td>{{orderDetailResult.policyCustomerNo}}</td>
+		<td><strong>保险类型&nbsp;&nbsp;&nbsp;</strong>
+		</td>
+		<td>{{type[orderDetailResult.kindType-1]}}</td>
+		<td><strong>起保日期&nbsp;&nbsp;&nbsp;</strong>
+		</td>
+		<td>{{orderDetailResult.startDate}}</td>
+	</tr>
+	<tr>
+		<td><strong>车牌号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+		</td>
+		<td>{{orderDetailResult.licenseNO}}</td>
+		<td><strong>保单状态&nbsp;&nbsp;&nbsp;</strong>
+		</td>
+		<td>{{orderStatus[orderDetailResult.policyStatus-1]}}</td>
+		<td><strong>终保日期&nbsp;&nbsp;&nbsp;</strong>
+		</td>
+		<td>{{orderDetailResult.endDate}}</td>
+	</tr>
+	<tr>
+		<td><strong>保单号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+		</td>
+		<td>{{orderDetailResult.policyNO}}</td>
+	</tr>
+</table>
+
+<table class="top30 table-small" style="text-align:left;">
+  <thead>
+  <tr>
+	    <th  style="padding-left:13%">险种名称</th>
+		<th style="padding-left:13%">金额</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="kindList in kindListResult">
+  		<td style="padding-left:13%;width:50%">{{kindList.kindName}}</td>
+   		<td style="padding-left:13%;">{{kindList.premium}} <span ng-show="kindList.premium">元</span></td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal" ng-show="hasError">
+  <div class="modal-header">
+    <h3>提示</h3>
+  </div>
+  <div class="modal-cont">
+    {{errorMsg}}
+  </div>
+</div>

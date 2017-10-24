@@ -1,0 +1,184 @@
+<div class="ov">
+  <nav class="nav-bar fl">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur">订单 ></span>
+    <span class="cur">订单管理</span>
+  </nav>
+  <br/>
+  <br/>
+  <div class="tr fr">
+    <button class="btn btn-success btn-broad" ng-click="exportTip()">导出EXCEL</button>
+  </div>
+</div>
+
+<div class="top25 narrow-box">
+  <button class="btn btn-input btn-default" style="float:right;" ng-click="findResult()" type="button">查找</button>
+
+	<select class="btn btn-narrow" ng-model="search_supplierID">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow"  ng-model="search_cityID">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+
+	<select class="btn btn-narrow"  ng-model="search_goodsID">
+		<option value="" ng-selected="selected" selected="selected">商品名称</option>
+		<option ng-repeat="good in goods" value="{{good.goodsID}}">{{good.goodsName}}</option>
+	</select>
+  <select class="btn btn-narrow"  ng-model="search_goodsOrderStatus">
+    <option value="">订单状态</option>
+    <option value="1">待支付</option>
+    <!--<option value="2">已支付</option>-->
+    <option value="3">超时取消</option>
+    <option value="4">已确定分期</option>
+    <option value="5">确认中</option>
+    <option value="6">保险公司拒保</option>
+    <option value="7">完成出单</option>
+    <option value="8">已退费</option>
+    <option value="9">已取消</option>
+    <option value="10">欠款</option>
+    <option value="11">已退保</option>
+  </select>
+  <!--<input type="date" class="btn btn-narrow" ng-model="search_createTimeStart" placeholder="订单创建起始日期" />-->
+	<!--<input type="text" date-time view="date" position="absolute" format="YYYY-MM-DD HH:mm" min-view="minutes" step="1" ng-model="dates.search_createTimeStart" class="btn btn-narrow"  placeholder="订单创建起始日期" />-->
+	<input type="text" date-time view="date" clear="true" position="absolute" format="YYYY-MM-DD HH:mm" min-view="minutes" step="1" ng-model="dates.search_createTimeStart" class="btn btn-narrow"  placeholder="订单创建起始日期" readonly="readonly" id="search_createTimeStart" min-date="minDate" min-date="dates.maxDate" />
+
+	<!--<input type="date" class="btn btn-narrow" ng-model="search_createTimeEnd" placeholder="订单创建终止日期" />-->
+	<!--<input type="text" date-time view="date" position="absolute" format="YYYY-MM-DD HH:mm" min-view="minutes" step="1" ng-model="dates.search_createTimeEnd" class="btn btn-narrow"  placeholder="订单创建终止日期" />-->
+	<input type="text" date-time view="date" clear="true" position="absolute" format="YYYY-MM-DD HH:mm" min-view="minutes" step="1" ng-model="dates.search_createTimeEnd" class="btn btn-narrow"  placeholder="订单创建终止日期" readonly="readonly" id="search_createTimeEnd" date-change="changeDate" max-date="maxDate" min-date="dates.minDate" ng-disabled="dates.search_createTimeStart.format('YYYY-MM-DD')?false:true" />
+
+  <input class="btn btn-narrow" type="text" ng-model="search_goodsOrderNumber" placeholder="输入订单编号" />
+  <input class="btn btn-narrow" type="text" ng-model="search_carOwner" placeholder="输入车主姓名" />
+  <input class="btn btn-narrow" type="text" ng-model="search_phoneNo" placeholder="输入联系电话" />
+  <input class="btn btn-narrow" type="text" ng-model="search_payOrderNumber" placeholder="输入支付订单编号" />
+  <input class="btn btn-narrow" type="text" ng-model="search_policyCustomerNo" placeholder="输入电子投保单号" />
+
+</div>
+
+
+<table class="top30 table-small">
+	<thead>
+		<tr>
+			<th>支付订单编号</th>
+			<th>订单编号</th>
+			<th>商品名称</th>
+			<th>总金额</th>
+			<th>车主</th>
+			<th>联系电话</th>
+			<th>订单状态</th>
+			<th>创建时间</th>
+			<th ng-click="doSort()">更新时间{{sortSign}}</th>
+			<th>供应商</th>
+			<th>城市</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="order in orders">
+			<td>{{order.payOrderNumber}}</td>
+			<td>{{order.goodsOrderNumber }}</td>
+			<td>{{order.goodsName}}</td>
+			<td>{{order.payFee}}元</td>
+			<td>{{order.carOwner}}</td>
+			<td>{{order.phoneNO}}</td>
+			<td>{{orderStatus[order.goodsOrderStatus-1]}}</td>
+			<td>{{order.createTime}}</td>
+			<td>{{order.lastUpdate}}</td>
+			<td>{{order.supplierShortName}}</td>
+			<td>{{order.cityName}}</td>
+			<td>
+				<a class="" style="font-weight: bolder;" ng-click="seeSupport(order.goodsOrderID)">查看保障</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+	<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+	</div>
+</nav>
+<div class="pop" ng-show="PopHide">
+	<div class="pop-up">
+		<h1 class="pop-title">{{title}}</h1>
+		<div class="tc">
+			<div class="pop-main">{{context}}</div>
+			<div>
+				<button class="btn btn-success" style="width: 75px;" ng-click="cancel()">确定</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="pop" ng-show="popAdvice">
+<!--<div class="pop" >-->
+	<div class="pop-up pop-list">
+		<h1 class="pop-title">保障详情<a class="close danger" style="font-size: 30px;color: white;" ng-click="cancelDetail()">×</a></h1>
+    <div class="pop-wrap">
+      <table class="table-show tl" >
+        <tr>
+          <td width="10%">电子投保单号:</td>
+          <td class="tl" width="25%">{{details.policyCustomerNo}} </td>
+          <td width="7%">保障类型:</td>
+          <td class="tl" width="25%">{{type[details.kindType - 1]}}</td>
+          <td class="" width="8%">起保日期:</td>
+          <td class="tl" width="25%">{{details.startDate}}</td>
+        </tr>
+        <tr>
+          <td>车牌号:</td>
+          <td>{{details.licenseNO}}</td>
+          <td>保单状态:</td>
+          <td>{{policyStatus[details.policyStatus - 1]}}</td>
+          <td>终保日期:</td>
+          <td>{{details.endDate}}</td>
+        </tr>
+        <tr>
+          <td>保单号:</td>
+          <td>{{details.policyNO}}</td>
+          <td>保费:</td>
+          <td>{{details.policyFee}} <span ng-show="details.policyFee">元</span></td>
+        </tr>
+      </table>
+      <!-- 保障详情 （车险白条[商业险] 或者 天天保[展示商品保障方案]）-->
+      <table ng-if="(details.goodsTypeID=='2' && details.kindType=='1') || details.goodsTypeID=='1'" class="top20" style="text-align:left;">
+        <thead>
+        <tr>
+          <th style="padding-left:30%">险种名称</th>
+          <th style="">险种金额</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="kind in kindList">
+          <td style="padding-left:30%">{{kind.kindName}}</td>
+          <td style="">{{kind.premium}} <span ng-show="kind.premium">元</span></td>
+        </tr>
+      </table>
+    </div>
+	</div>
+</div>
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+    	<div><small class="tips bottom10"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+        <div class="input-group" ng-repeat="param in params">
+          <span class="input-group-addon">{{param.key}}</span>
+          <div class="input-group-content">{{param.value}}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+    	<button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="exportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div>

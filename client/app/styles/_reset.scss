@@ -1,0 +1,105 @@
+
+@charset "utf-8";
+/* Reset  create by AndyZhou     Sep-24-2013 14:30  contact 529892056@qq.com*/
+html {  height: 100%;  -webkit-text-size-adjust: none;  -ms-text-size-adjust: 100%;  -webkit-font-smoothing: antialiased;  word-break: break-all}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, p, blockquote, th, td, hr, article, aside, details, figcaption, figure, footer, header,  menu, nav, section,img { margin:0; padding:0; }
+article, aside, details, figcaption, figure, footer, header, menu, nav, section,iframe { display:block; }
+audio, canvas, video { display:inline-block; }
+a ,input,button,select,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+body,button, input, optgroup, select, textarea {  margin: 0;font-family: inherit;font-size: inherit; }
+button, input[type="button"], input[type="reset"], input[type="submit"] {  -webkit-appearance: button;  cursor: pointer;  }
+button::-moz-focus-inner, input::-moz-focus-inner {  border: 0;  padding: 0;  }
+button, select {  text-transform: none;  }
+button {  overflow: visible;  }
+h1, h2, h3, h4, h5, h6 {font-weight:500; }
+code, kbd, pre, samp {  font-family: monospace;  font-size: 1em;  }
+sub, sup { font-size:75%; line-height:0; position:relative; vertical-align:baseline; }
+sup { top:-0.5em; }
+sub { bottom:-0.25em; }
+textarea { resize:none; overflow-y:auto; }
+del { text-decoration:line-through; position: absolute}
+ul ,menu{ list-style:none; }
+ol { list-style-position:inside; }
+a { text-decoration:none;color: #000;background-color: transparent;cursor: pointer;}
+//a:link,a:visited,
+a:active,a:hover{color: #666;text-decoration: none;}
+small{font-size: .85em;}
+table { border-collapse: collapse; border-spacing: 0; }
+object, :focus { outline: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; }
+body{height: 100%;font: 400 14px/1.5   "Microsoft YaHei","Hiragino Sans GB",Tahoma,STHeiti,sans-serif; background: $mainBgColor;}
+input[type=number],select{padding-right: 0;}
+input[type=radio]{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  vertical-align: middle;margin-right: 8px;
+  background: #fff;border:1px solid #ccc;
+  width: 18px;height: 18px;border-radius: 100%;
+
+  &+*{vertical-align: middle;margin-right: 30px;}
+
+}
+*:disabled{cursor: no-drop;}
+input[type=radio]:checked{
+  background: $brand-success;
+  border-color: $brand-success;
+}
+input[type=checkbox]{
+  @extend .appearance;
+  border: 1px solid #e2e2e2 ;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;margin-right: 6px;
+  &+*{vertical-align: middle;}
+  &:checked{
+    background: url("../images/check.png") no-repeat center;
+  }
+}
+tbody,tbody a{color: #999;}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  // Chrome and Firefox set a `min-width: min-content;` on fieldsets,
+  // so we reset that to ensure it behaves more like a standard block element.
+  // See https://github.com/twbs/bootstrap/issues/12359.
+  min-width: 0;
+}
+
+legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: $line-height-computed;
+  font-size: 16px;
+  line-height: inherit;
+  color: $legend-color;
+  border: 0;
+  border-bottom: 1px solid $legend-border-color;
+}
+
+
+::-webkit-scrollbar-track-piece{
+  background-color:#fff;
+  -webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+  width:8px;
+  height:8px;
+}
+::-webkit-scrollbar-thumb{
+  height:50px;
+  background-color:#999;
+  -webkit-border-radius:4px;
+  outline:2px solid #fff;
+  outline-offset:-2px;
+  border: 2px solid #fff;
+}
+::-webkit-scrollbar-thumb:hover{
+  height:50px;
+  background-color:#9f9f9f;
+  -webkit-border-radius:4px;
+}

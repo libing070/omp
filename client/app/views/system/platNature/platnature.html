@@ -1,0 +1,123 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tip cur" ng-click="goTo('/gtposter/')">设置 > </span>
+  <span class="cur">平台属性设置</span>
+</nav>
+<div class="platnature" style="width:80%;margin:5% auto;border:solid 1px #ccc;padding:10px 50px 50px">
+  <form class="top25">
+    <div class="tr"> <button type="button" class="btn btn-success btn-broad" ng-click="eidtPlat(platList.platConfigID)">编辑</button></div>
+    <div class="input-group">
+      <label class="input-group-addon" style="width:150px"><span class="require"></span>平台客服热线:</label>
+      <div class="input-group-content">
+        {{platList.serviceHotline}}
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-group-addon" style="width:150px"><span class="require"></span>邮寄地址:</label>
+      <div class="input-group-content">
+        {{platList.address}}
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-group-addon" style="width:150px"><span class="require"></span>邮编:</label>
+      <div class="input-group-content">
+        {{platList.postcode}}
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-group-addon" style="width:150px"><span class="require"></span>收件人:</label>
+      <div class="input-group-content">
+        {{platList.receiver}}
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-group-addon" style="width:150px"><span class="require"></span>收件人电话:</label>
+      <div class="input-group-content">
+        {{platList.phone}}
+      </div>
+    </div>
+    <div class="input-group" >
+      <label class="input-group-addon" style="width:150px"><span class="require"></span>营业时间提示语:</label>
+      <div class="input-group-content">
+        {{platList.serviceTimePrompt}}
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<!--编辑平台属性弹出框-->
+<div class="pop" ng-show="modalEditPlat">
+  <form  class="pop-up" style="height:450px;width:600px;overflow-y:auto;" ng-submit="ensureEditPlat()">
+    <h3 class="pop-title">编辑平台属性</h3>
+    <div class="pop-wrap">
+      <div class="input-group">
+        <label class="input-group-addon" style="width:120px;"><span class="require"></span>平台客服热线:</label>
+        <div class="input-group-content">
+          <input type="text" ng-model="serviceHotline" ng-value="serviceHotline"  ng-focus="judgeNull()">
+          <p ng-show="!isServiceHotlineNumber" class="danger">格式填写不正确，请重新输入</p>
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-group-addon" style="width:120px;"><span class="require"></span>邮寄地址:</label>
+        <div class="input-group-content">
+          <input type="text" ng-model="address"  ng-value="address"  ng-focus="judgeNull()">
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-group-addon" style="width:120px;"><span class="require"></span>邮编:</label>
+        <div class="input-group-content">
+          <input type="text" ng-value="postcode" ng-model="postcode"  ng-focus="judgeNull()">
+          <p ng-show="!isPostcodeNumber" class="danger">格式填写不正确，请重新输入</p>
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-group-addon" style="width:120px;"><span class="require"></span>收件人:</label>
+        <div class="input-group-content">
+          <input type="text" ng-model="receiver" ng-value="receiver"  ng-focus="judgeNull()">
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-group-addon" style="width:120px;"><span class="require"></span>收件人电话:</label>
+        <div class="input-group-content">
+          <input type="text" ng-model="phone" ng-value="phone"  ng-focus="judgeNull()">
+          <p ng-show="!isPhoneNumber" class="danger">格式填写不正确，请重新输入</p>
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-group-addon" style="width:120px;"><span class="require"></span>营业时间提示语:</label>
+        <div class="input-group-content">
+          <textarea name="" style="height:80px;width:400px" ng-value="serviceTimePrompt" maxlength="200" ng-model="serviceTimePrompt"></textarea>
+        </div>
+      </div>
+      <div ng-show="someNull" class="danger">请确认所有项目均不为空</div>
+      <div class="input-group top20">
+        <label class="input-group-addon">&nbsp;</label>
+        <div class="input-group-content">
+          <button  class="btn btn-input" type="button" ng-click="closeModal()">取消</button>
+          &nbsp;&nbsp;<button class="btn btn-input btn-success" type="submit">确认</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!--网络连接失败弹出框-->
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalPlatAlreadySave">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+  <span class="cur" ng-click="goTo('/supplier/')">供应商管理 ></span>
+  <span class="cur">编辑供应商</span>
+</nav>
+
+
+<form class="top30"   ng-submit="editSupplier()">
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>供应商编码</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="supplierNumber" ng-value="supplierNumber" ng-focus="change()"><span ng-show="numberNull" class="danger">请输入供应商编码</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>供应商名称</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="supplierName" ng-value="supplierName" ng-focus="change()"><span ng-show="nameNull" class="danger">请填写供应商名称</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>简称</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="shortName" ng-value="shortName	" ng-focus="change()"><span ng-show="cnameNull" class="danger">请填写供应商简称</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>客服电话</label>
+    <div class="input-group-content">
+      <input type="text" class="btn btn-input-wide" ng-model="contactPhone" ng-value="contactPhone" ng-focus="change()">
+      <span ng-show="telNull" class="danger">请填写客服电话</span>
+      <span ng-show="!isContactTelNumber" class="danger">格式填写不正确，请重新输入</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>理赔电话</label>
+    <div class="input-group-content">
+      <input type="text"class="btn btn-input-wide"  ng-model="claimPhone" ng-value="claimPhone" ng-focus="change()">
+      <span ng-show="ctelNull" class="danger">请填写理赔电话</span>
+      <span ng-show="!isClaimTelNumber" class="danger">格式填写不正确，请重新输入</span>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>合作开始时间</label>
+    <div class="input-group-content">
+      <!--<input type="text" date-time view="date" position="absolute" format="YYYY-MM-DD" readonly="readonly" min-view="date" step="1" ng-model="dates.cooperationStartTime" class="btn btn-input-wide" />-->
+      <input  id="cooperationStartTime" type="text" date-time view="date" clear="true" position="absolute" min-date="minDate" min-date="dates.maxDate"
+              format="YYYY-MM-DD HH:mm" min-view="minutes" step="1" ng-model="dates.cooperationStartTime" class="btn btn-input-wide"   readonly="readonly"/>
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require"></span>合作结束时间</label>
+    <div class="input-group-content">
+      <!--<input type="text" date-time view="date" position="absolute" format="YYYY-MM-DD" readonly="readonly" min-view="date" step="1" ng-model="dates.cooperationEndTime" class="btn btn-input-wide" />-->
+      <input  id="cooperationEndTime" type="text" date-time view="date" clear="true" position="absolute" date-change="changeDate" max-date="maxDate"
+              min-date="dates.minDate"  min-view="minutes"  format="YYYY-MM-DD HH:mm" min-view="minutes" step="1"   ng-model="dates.cooperationEndTime"
+              ng-disabled="dates.cooperationStartTime.format('YYYY-MM-DD')?false:true" class="btn btn-input-wide"  readonly="readonly" />
+    </div>
+  </div>
+  <div class="input-group">
+    <label class="input-group-addon">&nbsp;</label>
+    <div class="input-group-content">
+      <a href="#/supplier" class="btn btn-default btn-input" type="button" >取消</a>
+      &nbsp;&nbsp;<button class="btn btn-input btn-success" type="submit">保存</button>
+    </div>
+  </div>
+</form>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="saveSupplier">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>
+
+<div class="pop" ng-show="showTip">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      <span ng-show="numberRepeat">供应商编码重复，请重新填写</span>
+      <span ng-show="nameRepeat">供应商名称重复，请重新填写</span>
+      <span ng-show="shortNameRepeat">供应商简称重复，请重新填写</span>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closePop()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>

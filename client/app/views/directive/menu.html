@@ -1,0 +1,9 @@
+<menu class="menu">
+  <li class="list-item  "  ng-repeat="li in list" ng-class="{'expand':li.active}" >
+  <a  class="unit " ng-class="{'first-item':$index==0}" ng-href="{{li.href}}"><span class="icon-font">{{li.icon}}</span><span>{{li.name}}</span></a>
+  <ul class="menu-sub" ng-if="li.sub">
+  <li ng-repeat="item in li.sub" ><a ng-class="{'active':item.active}"  ng-href="{{item.href}}">{{item.name}}</a></li>
+  </ul>
+  </li>
+  <!--<li>{{aa}}</li>-->
+</menu>

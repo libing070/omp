@@ -1,0 +1,138 @@
+<div class="ov">
+  <nav class="nav-barv fl">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+    <span class="cur">产品与供应商关系</span>
+  </nav>
+
+</div>
+<a href="suppagoods.html" download="suppagoods.html"></a>
+<div style="position:relative;">
+  <br/><br/>  <br/>
+  <form class="top25" id="form" ng-submit="termsSearch()" style="">
+    <select class="btn btn-narrow" ng-model="goodsTypeID" >
+      <option value="">产品类别</option>
+      <option ng-repeat="line in lines" value="{{line.goodsTypeID}}">{{line.goodsTypeName}}</option>
+    </select>
+
+    <!--<div style="display:inline-block;position:relative;">-->
+    <!--<select class="btn btn-input-wide" ng-model="cityID" ng-click="showCitySelect()">-->
+    <!--<option value="">{{selName}}</option>-->
+    <!--<option ng-show=false ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>-->
+    <!--</select>-->
+    <!--<div id="citySelect" style="width:120%;"></div>-->
+    <!--</div>-->
+    <select class="btn btn-narrow" ng-model="cityID">
+      <option value="">所有城市</option>
+      <option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+    </select>
+
+    <select class="btn btn-narrow" ng-model="supplierID">
+      <option value="">所有供应商</option>
+      <option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName}}</option>
+    </select>
+    <button class="btn btn-input btn-default" type="submit">查找</button>
+  </form>
+
+  <form ng-submit="saveSort()" class="top50">
+    <div class="tr">
+      <div style="position:absolute;top:0px;right:0px; float:right">
+      <br/>
+        <button type="button" class="btn btn-success btn-broad" ng-click="canShare()" ng-show="forbidEditShare">编辑用户份额</button>
+        <button type="submit" class="btn btn-success btn-broad" ng-show="!forbidEditShare">保存用户份额</button>
+        <a href="#/addsuppagoods/{{ticket}}/{{domain}}" class="btn btn-success btn-broad">+新增产品与供应商关系</a>
+      </div>
+
+    </div>
+    <div class="goods-cont">
+      <div class="search-result">
+        <table class="top25 table-small">
+          <thead>
+          <tr>
+            <th width="15%">产品类别</th>
+            <th width="10%">城市</th>
+            <th width="20%">供应商名称</th>
+            <th width="10%">联系人</th>
+            <th width="15%">联系电话</th>
+            <th width="20%">用户份额<span class="danger" ng-show="!shareInt">用户份额必须是0-9之间的正整数,请重新输入</span></th>
+            <th width="10%">操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="result in searchResult">
+            <td>{{result.goodsTypeName}}</td>
+            <td>{{result.cityName}}</td>
+            <td>{{result.supplierName}}</td>
+            <td>{{result.contactName}}</td>
+            <td>{{result.contactPhone}}</td>
+            <!--<td>{{result.email}}</td>-->
+            <td style="text-align:center">
+              <input type="text" class="btn btn-sm  btn-number" ng-value="result.share" ng-model="result.share" ng-disabled="forbidEditShare">
+            </td>
+            <td>
+              <a href="#/editsuppagoods/{{result.goodsTypeID}}/{{result.cityID}}/{{result.supplierID}}/{{result.quoteMode}}/{{result.insuredMode}}/{{result.contactName}}/{{result.contactPhone}}/{{result.email}}/{{result.goodsTypeCitySupplierRelID}}/{{ticket}}/{{domain}}">编辑</a>&nbsp;&nbsp;
+              <a href="javascript:;" ng-click="delSuppAGoods(result.goodsTypeCitySupplierRelID)">删除</a>
+            </td><!--/{{result.goodsTypeID}}-->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+  <!--确认删除-->
+  <div class="pop" ng-show="delSupplierModal">
+    <div class="pop-up pop-up-small">
+      <h3 class="pop-title">提示</h3>
+      <div  class="pop-wrap tc">
+        您是否确认删除
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="closeModalBox()">取消</button>
+        <button type="button" class="btn btn-input btn-success" ng-click="ensureDelSupplier()">确认</button>
+      </div>
+    </div>
+  </div>
+
+<!--有维护，不可删除-->
+<div class="pop" ng-show="delSupplierFalseModal">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div  class="pop-wrap tc">
+      该产品与供应商关系已在"商品管理"中有维护，您是否确认删除？
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeModalBox()">取消</button>
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureDelSupplier()">确认</button>
+    </div>
+  </div>
+</div>
+
+ <!--已删除-->
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="supplierAlreadyDel">
+  <div class="pop-wrap tc success">
+    已删除
+  </div>
+</div>
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+

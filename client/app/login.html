@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/main.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+
+</head>
+<body>
+<!--[if lte IE 8]>
+<p class="browsehappy">请升级浏览器，推荐使用chrome！</p>
+<![endif]-->
+
+<!-- header start -->
+<header class="header">
+  <div class="navbar-header-top">
+    <!--<div class="fr">-->
+      <!--<span>注册</span>-->
+    <!--</div>-->
+    <!--<div class="portrait fr"><img src="images/circle.png"/></div>-->
+  <!--</div>-->
+  <!--<div class="navbar-header-logo">-->
+    <!--<div id="logo">-->
+      <!--<img   src="images/logo.png"/>-->
+      <!--<a href="#">YMT分时车险平台V1.0</a>-->
+    <!--</div>-->
+  </div>
+</header>
+<!-- header end -->
+<!--footer start-->
+<footer class="footer tc">
+  深圳易秒通网络科技有限公司
+</footer>
+<!--footer end-->
+<article class="main login-box">
+  <form class="login" name="form">
+      <div class="login-label">登录</div>
+    <input id="user" class="top5 btn fullW tl" style="border-bottom: none;" type="text" name="user" placeholder="帐号"/>
+    <input id="pwd" class="btn fullW tl" type="password" name="pwd" placeholder="密码"/>
+    <div class="top10 ov">
+      <label class="fl"><input id="check" type="checkbox"/> <span>记住账号</span></label>
+      <a class="fr" style="color: #7eb5ef;">无法登录？</a>
+    </div>
+    <div class="top20">
+      <button id="sub" class="btn btn-broad btn-success bigSize" type="button">登录</button>
+    </div>
+  </form>
+</article>
+<script type="text/javascript">
+    var user=document.getElementById("user");
+    var pwd=document.getElementById("pwd");
+    document.getElementById("sub").onclick=function(){
+      if(user.value){
+        if(pwd.value){
+          var req=new XMLHttpRequest();
+          var param={
+            user:user.value,
+            pwd:pwd.value
+          };
+          req.open("post","http://localhost:8080/jsse/login/login");
+          req.send(JSON.stringify(param));
+          req.onreadystatechange=function(){
+            if(req.status==200&&req.readyState==4){
+                var data=JSON.parse(req.response);
+                if(data.errorCode==0){
+                  if(document.getElementById("check").checked){
+                    window.localStorage.setItem("user",user.value);
+                  }
+                  window.sessionStorage.setItem("token","33333");
+                    window.location.href="index.html";
+                }else {
+                  alert(data.msg);
+                }
+            }
+          }
+        }else {
+          alert("密码不能空")
+        }
+      }else {
+        alert("用户名不能为空")
+      }
+    };
+
+
+
+</script>
+</body>
+</html>

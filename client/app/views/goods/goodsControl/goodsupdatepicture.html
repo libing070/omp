@@ -1,0 +1,90 @@
+
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/city/')">商品 ></span>
+  <span class="cur" ng-click="goTo('/goodscontrol/')">商品管理 ></span>
+  <span class="cur">上传商品图片 </span>
+</nav>
+
+
+<div class="top25"><span class="require">*</span>上传商品头图   图片要求(200像素*200像素，图片格式要求:JPG、PNG、GIF)</div>
+<div class=" top15 ov">
+    <div class="pop-brandImage  single-img fl" >
+        <div class="ov">
+            <label class="fl"><span class="bigSize">商品头图</span> <span class="gray">(尺寸:200*200)</span></label>
+        </div>
+        <div class="imgBox " >
+          <!--<input type="file" class="fileBtn" id="file" onchange="angular.element(this).scope().setFiles(this)"  data-index="{{$index}}" data-cid="{{goodsType.goodsTypeID}}" />-->
+            <input class="fileBtn fileAdd"  type="file"  data-nth="0" data-cid="{{goodsImg.goodsImagesRelID}}" data-type="1" onchange="angular.element(this).scope().setFiles(this)">
+            <img    ng-src="{{goodsImg.httpUrl}}"/>
+            <div ng-if="goodsImg.goodsImagesRelID>0" class="change-pic">点击更换</div>
+        </div>
+    </div>
+</div>
+<div class="top25 "  >
+   <div class="top25"><span class="require">*</span>上传商品详情图 - 图片要求（750像素  *不限高 ; 图片张数 1至7张）</div>
+</div>
+<div class="pop-brandImage top15">
+    <div class="ov">
+        <label class="fl"><span class="bigSize">商品详情页图</span> <span class="gray">(尺寸:750*不限高)</span></label>
+        <span class="success fr btn-sort" ng-click="sort()"><span>{{sortText}}</span></span>
+    </div>
+
+    <div class="ov"  ng-class="{ 'sortActive': !disabled}">
+        <div class="imgGroup" ng-repeat="detail in details">
+            <span class="btn-del" ng-click="del($index)"></span>
+            <div class="imgBox ">
+              <input class="fileBtn fileAdd" type="file"  data-nth="{{$index}}" data-cid="{{detail.goodsImagesRelID}}" data-type="2" onchange="angular.element(this).scope().setFiles(this)">
+                <img ng-src="{{detail.httpUrl}}"/>
+              <div class="change-pic" ng-show="sortText != '保存'">点击更换</div>
+            </div>
+            <div class="tc">
+                <input type="text" ng-model="detail.priority" class="sortNum btn btn-sm" ng-disabled="disabled" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" />
+            </div>
+        </div>
+        <div class="imgGroup addBox" ng-hide="details.length>6" >
+            <span class="btn-del"></span>
+            <div class="imgBox">
+                <input class="fileBtn fileAdd" id="inputElem"  type="file" ng-model="temp" data-nth="-1" data-cid="" data-type="2" onchange="angular.element(this).scope().setFiles(this)">
+                <img src="images/upload.png"/>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="tc top25">
+    <button class="btn btn-7em btn-success" ng-click="finish()">完成</button>
+</div>
+
+
+<!-- 确认提示框  -->
+<div class="pop"  ng-show="showPop">
+    <div class="pop-up pop-up-small">
+        <h1 class="pop-title">提示</h1>
+      <div class="pop-wrap">您仍有商品图片未上传,如果未完成全部上传该商品将处于草稿状态；</div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input" ng-click="noUpload()">暂不上传</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-input btn-success" ng-click="hidePop()">继续上传</button>
+      </div>
+    </div>
+</div>
+
+
+
+<div class="pop" ng-show="popShow">
+    <div class="pop-up">
+        <h1 class="pop-title">提示</h1>
+      <div class="pop-wrap tc" >
+        <div class="ib tl">
+        	{{context}}
+        </div>
+      </div>
+      <div class="pop-btn tc">
+        <button type="button" class="btn btn-input btn-success" ng-click="cancel()">确定</button>
+      </div>
+    </div>
+</div>
+
+
+

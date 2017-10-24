@@ -1,0 +1,63 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur" ng-click="goTo('/user/')">用户 ></span>
+  <span class="cur" ng-click="goTo('/user/')">用户查询 ></span>
+  <a href="javascript:history.back()">用户详情 ></a>
+  <span class="cur">账单详情</span>
+</nav>
+<br /><br />
+<h2 class="title-info" >还款计划</span></h2>
+<table class="table-show tl" style="width:80%">
+	<tr>
+		<td><strong>车牌号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>
+		{{billDetailResult.carLicenseNO}}</td>
+		<td><strong>商品名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>
+		{{billDetailResult.goodsName}}</td>
+	</tr>
+	<tr>
+		<td><strong>总计&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>
+		{{billDetailResult.sumAmount}} <span ng-show="billDetailResult.sumAmount">元</span></td>
+		<td><strong>已还款金额&nbsp;&nbsp;:</strong>
+		{{billDetailResult.payAmount}} <span ng-show="billDetailResult.payAmount">元</span></td>
+		<td><strong>剩余还款金额&nbsp;:</strong>
+		{{billDetailResult.noPayAmount}} <span ng-show="billDetailResult.noPayAmount">元</span></td>
+		<td><strong>每期还款金额&nbsp;:</strong>
+		{{billDetailResult.terminallyAmount}}<span ng-show="billDetailResult.terminallyAmount">元</span></td>
+	</tr>
+</table>
+
+<h2 class="title-info" >账单明细</span></h2>
+<table class="table-small">
+  <thead>
+  <tr>
+	    <th>期数</th>
+		<th>还款日</th>
+	    <th>还款金额</th>
+	    <th>首次扣款结果</th>
+	    <th>首次扣款日期</th>
+	    <th>二次扣款结果</th>
+	    <th>二次扣款日期</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="billDetailList in billDetailListResult">
+  		<td>{{billDetailList.currentTime}}</td>
+   		<td>{{billDetailList.firstPayDate}}</td>
+   		<!--<td>{{billDetailList.payMethod}}</td>-->
+	    <td>{{billDetailList.payAmount }}<span ng-show="billDetailResult.payAmount">元</span></td>
+	    <td>{{billDetailList.firstPayResult}}</td>
+	    <td>{{billDetailList.firstPayDate}}</td>
+	    <td>{{billDetailList.lastPayResult}}</td>
+	    <td>{{billDetailList.lastPayDate}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal" ng-show="hasError">
+  <div class="modal-header">
+    <h3>提示</h3>
+  </div>
+  <div class="modal-cont">
+    {{errorMsg}}
+  </div>
+</div>

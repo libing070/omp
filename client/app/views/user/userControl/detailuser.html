@@ -1,0 +1,121 @@
+
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur"ng-click="goTo('/user/')">用户 ></span>
+  <span class="cur" ng-click="goTo('/user/')">用户查询 ></span>
+  <span class="cur">用户详情</span>
+</nav>
+<br><br>
+<h2 class="title-info" >基本信息</h2>
+
+<table class="table-show tl" style="width:80%">
+  <tr>
+    <td><strong>用户姓名&nbsp;&nbsp;&nbsp;&nbsp;:</strong>
+    {{userDetailResult.userName}}</td>
+    <td><strong>注册日期&nbsp;&nbsp;&nbsp;&nbsp;:</strong>
+    {{userDetailResult.registDate}}</td>
+    <td><strong>用户状态&nbsp;&nbsp;&nbsp;&nbsp;:</strong>
+    {{userStatusTemp[userDetailResult.userStatus-1]}}</td>
+  </tr>
+  <tr>
+    <td><strong>用户手机号&nbsp;:</strong>
+   {{userDetailResult.phoneNO}}</td>
+    <td><strong>常用车牌号&nbsp;:</strong>
+    {{userDetailResult.licenseNO}}</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<h2 class="title-info" >车辆记录</span></h2>
+<table class="table-small">
+  <thead>
+  <tr>
+	    <th>车牌号</th>
+		<th>发动机号</th>
+	    <th>车架号</th>
+	    <th>车型</th>
+	    <th>行驶城市</th>
+	    <th>车主</th>
+	    <th>车主身份证号</th>
+	    <th>被保险人</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="carInfo in carInfoResult">
+  		<td>{{carInfo.carLicense}}</td>
+   		<td>{{carInfo.engineNO}}</td>
+   		<td>{{carInfo.frameNO}}</td>
+	    <td>{{carInfo.brandName }}</td>
+	    <td>{{carInfo.cityName}}</td>
+	    <td>{{carInfo.carOwner}}</td>
+	    <td>{{carInfo.ownerCardID}}</td>
+	    <td>{{carInfo.insuredName}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<h2 class="title-info">还款记录</h2>
+<table class="table-small">
+  <thead>
+  <tr>
+	    <th>车牌号</th>
+		<th>商品名称</th>
+	    <th>总计</th>
+	    <th>已还款金额</th>
+	    <th>剩余还款金额</th>
+	    <th>每期付款金额</th>
+	    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="paymentRecord in paymentRecordResult">
+  		<td>{{paymentRecord.carLicenseNO}}</td>
+   		<td>{{paymentRecord.goodsName}}</td>
+   		<td>{{paymentRecord.sumAmount}} <span ng-show="paymentRecord.sumAmount">元</span></td>
+	    <td>{{paymentRecord.payAmount }}<span ng-show="paymentRecord.payAmount">元</span></td>
+	    <td>{{paymentRecord.noPayAmount}}<span ng-show="paymentRecord.noPayAmount">元</span></td>
+	    <td>{{paymentRecord.terminallyAmount}}<span ng-show="paymentRecord.terminallyAmount">元</span></td>
+	    <td><a href="#/billdetail/{{paymentRecord.hirePurchaseAgreementID}}/{{domain}}/{{ticket}}" class="success btn-xs">账单详情</a></td>
+  </tr>
+  </tbody>
+</table>
+
+
+<h2 class="title-info">订单记录</h2>
+<table class="table-small">
+  <thead>
+  <tr>
+	    <th>订单编号</th>
+			<th>商品名称</th>
+	    <th>总金额</th>
+	    <th>联系电话</th>
+	    <th>订单状态</th>
+	    <th>起保日期</th>
+	    <th>订单创建日期</th>
+	    <th>供应商</th>
+	    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="orderRecord in orderRecordResult">
+  		<td>{{orderRecord.goodsOrderCustomerNumber}}</td>
+   		<td>{{orderRecord.goodsName}}</td>
+   		<td>{{orderRecord.amount}} <span ng-show="orderRecord.amount">元</span></td>
+	    <td>{{orderRecord.phoneNO }}</td>
+	    <td>{{orderStatus[orderRecord.goodsOrderStatus-1]}}</td>
+	    <td>{{orderRecord.startTime}}</td>
+	    <td>{{orderRecord.createTime}}</td>
+	    <td>{{orderRecord.supplierName}}</td>
+	    <td><a href="#/kinddetail/{{orderRecord.goodsOrderID}}/{{domain}}/{{ticket}}" class="success btn-xs">保障详情</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal" ng-show="hasError">
+  <div class="modal-header">
+    <h3>提示</h3>
+  </div>
+  <div class="modal-cont">
+    {{errorMsg}}
+  </div>
+</div>

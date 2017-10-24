@@ -1,0 +1,98 @@
+<div class="ov">
+  <nav class="nav-bar fl">
+    <span class="icon-font tips">&#xe614</span>
+    <span class="tips cur">订单 ></span>
+    <span class="cur">微信端数据统计</span>
+  </nav>
+
+  <div class="tr fr">
+    <button class="btn btn-success btn-broad" ng-click="exportTip()">导出EXCEL</button>
+  </div>
+</div>
+
+<div class="top25 narrow-box">
+	<button class="btn btn-input btn-default" style="float:right;" ng-click="findResult()" type="button">查找</button>
+
+	 <input type="text" date-time view="date" clear="true" position="absolute" format="YYYY-MM-DD" min-view="date" step="1" ng-model="dates.search_createTimeStart" class="btn btn-narrow"  placeholder="查询起始日期" readonly="readonly" id="search_createTimeStart" />
+
+	<input type="text" date-time view="date" clear="true" position="absolute" format="YYYY-MM-DD" min-view="date" step="1" ng-model="dates.search_createTimeEnd" class="btn btn-narrow"  placeholder="查询结束日期" readonly="readonly" id="search_createTimeEnd" />
+
+</div>
+
+
+<table class="top30 table-small">
+	<thead>
+		<tr>
+			<th>数据编号</th>
+			<th>用户id</th>
+			<th ng-click="doSort()">时间{{sortSign}}</th>
+			<th>访问渠道</th>
+			<th>是否访问欢迎页</th>
+			<th>是否访问结束页</th>
+			<th>是否分享产品</th>
+			<th>是否进入算价游戏</th>
+			<th>车辆价格</th>
+			<th>购车年份</th>
+			<th>是否点击算价</th>
+			<th>是否分享游戏</th>
+			<th>是否计算另一台车价格</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="record in records">
+			
+			<td>{{record.id}}</td>
+			<td>{{record.openId}}</td>
+			<td>{{record.createDate}}</td>
+			<td>{{record.scene}}</td>
+			<td>{{record.isVisitedPortal}}</td>
+			<td>{{record.isVisitedLast}}</td>
+			<td>{{record.isShareProduct}}</td>
+			<td>{{record.isPlay}}</td>
+			<td>{{record.carPrice}}</td>
+			<td>{{record.buyYear}}</td>
+			<td>{{record.isCalculate}}</td>
+			<td>{{record.isShareGame}}</td>
+			<td>{{record.isCalculateOtherCar}}</td>
+		</tr>
+	</tbody>
+</table>
+<nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+</nav>
+<div class="pop" ng-show="PopHide">
+	<div class="pop-up">
+		<h1 class="pop-title">{{title}}</h1>
+		<div class="tc">
+			<div class="pop-main">{{context}}</div>
+			<div>
+				<button class="btn btn-success" style="width: 75px;" ng-click="cancel()">确定</button>
+			</div>
+		</div>
+
+	</div>
+</div> 
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+    	<div><small class="tips bottom10"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+        <div class="input-group" ng-repeat="param in params">
+          <span class="input-group-addon">{{param.key}}</span>
+          <div class="input-group-content">{{param.value}}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+    	<button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="exportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div>

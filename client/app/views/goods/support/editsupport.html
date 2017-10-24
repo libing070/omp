@@ -1,0 +1,109 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur"  ng-click="goTo('/city/')">商品 ></span>
+  <span class="cur"  ng-click="goTo('/support/')">保障方案管理 > </span>
+  <span class="cur">编辑保障方案</span>
+</nav>
+<div class="danger top25" ng-show="canNotEdit">由于此保障方案已经被商品调用，不允许编辑</div>
+<form class="top15"   ng-submit="edit()">
+  <div class="input-group">
+    <label class="input-group-addon"><span class="require">*</span>保障方案名称</label>
+    <div class="input-group-content">
+      <input type="text" ng-model="protectPlanName" ng-value="protectPlanName"  ng-blur="nameChange()" ng-disabled="canNotEdit">
+      <span ng-show="nameSupportRepeat" style="color:red">名称重复，请重新填写</span>
+      <span ng-show="nameSupportNull" style="color:red">请填写保障方案名称</span>
+    </div>
+  </div>
+  <div class="add-support-cont">
+          <p>险种设置</p>
+          <table class="top30 table-small">
+            <thead>
+            <tr>
+              <th>险种</th>
+              <th>是否投保/保额</th>
+              <th>不计免赔</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td colspan="3">主险</td>
+            </tr>
+            <tr ng-repeat="kind in TkindList">
+              <td>{{kind.kindName}}</td>
+              <td>
+                <select class="btn btn-narrow" ng-model="kind.test" ng-disabled="canNotEdit">
+                  <option value="">{{kind.amountShow}}</option>
+                  <option  ng-repeat="amount in kind.amountList" ng-value="amount.amountValue">{{amount.amountShow}}</option>
+                </select>
+              </td>
+              <td>
+               <!--<input type="checkbox" name="issel" ng-model="kind.issel" ng-checked="kind.isFree=='1'"> &lt;!&ndash; &ndash;&gt;-->
+                <input type="checkbox" name="issel" ng-model="kind.issel" ng-checked="kind.isFree=='1'" ng-click="changeBox(kind.issel,kind.kindID)" ng-disabled="canNotEdit">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">附加险</td>
+            </tr>
+            <tr ng-repeat="kind in TkindListF">
+              <td>{{kind.kindName}}</td>
+              <td>
+                <select class="btn btn-narrow" ng-model="kind.test" ng-disabled="canNotEdit">
+                  <option value="">{{kind.amountShow}}</option>
+                  <option  ng-repeat="amount in kind.amountList"  ng-value="amount.amountValue" ng-checked="kind.isFree=='1'">{{amount.amountShow}}</option>
+                </select>
+              </td>
+              <td>
+                <!--<input type="checkbox" name="issel" ng-model="kind.issel" ng-checked="kind.isFree=='1'">&lt;!&ndash; ng-checked="kind.isFree=='1'"&ndash;&gt;-->
+                <input type="checkbox" name="issel" ng-model="kind.issel" ng-checked="kind.isFree=='1'" ng-click="changeBox(kind.issel,kind.kindID)" ng-disabled="canNotEdit || kind.kindID=='6'">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+  <div class="input-group top30">
+    <label class="input-group-addon">&nbsp;</label>
+    <div class="input-group-content">
+      <a href="#/support" class="btn btn-success btn-input" type="button" ng-show="canNotEdit">关闭</a>
+      <a href="#/support" class="btn btn-default btn-input" type="button" ng-show="!canNotEdit">取消</a>
+      &nbsp;&nbsp;<button class="btn btn-input btn-success" type="submit" ng-show="!canNotEdit">保存</button>
+    </div>
+  </div>
+</form>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="showSupportTip">
+  <div class="pop-wrap tc success"><!--->
+    已保存
+  </div>
+</div>
+
+
+
+<div class="pop" ng-show="hasError">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      {{errorMsg}}
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-color" ng-click="closeError()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!--未选择险种，提示不能保存-->
+<div class="pop" ng-show="supplierNotSel">
+  <div class="pop-up pop-up-small">
+    <h3 class="pop-title">提示</h3>
+    <div class="pop-wrap tc">
+      请选择险种
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input btn-success" ng-click="closeModalBox()">确认</button>
+    </div>
+  </div>
+</div>
+
+
+
+

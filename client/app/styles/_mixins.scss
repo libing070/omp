@@ -1,0 +1,30 @@
+@mixin abs-center($width,$height){
+  position: fixed;
+  top:50%;left: 50%;
+  width: $width;height: $height;
+  margin-left: -$width/2;
+  margin-top: -$height/2;
+}
+@mixin circle($radius,$borderWidth,$borderColor){
+  width: $radius;
+  height: $radius;
+  border-radius: 100%;
+  @if($borderWidth!=0){
+    border: $borderWidth solid $borderColor;
+  }
+  overflow: hidden;
+  img{width: 100%;}
+}
+@mixin pop-up($with,$height){
+  position: absolute;top:50%;left: 50%;
+  width: $with;height: $height;
+  margin-left: -$with/2;margin-top: -$height/2;
+  background: #fff;
+  font-size: 15px;
+}
+@mixin pop-up-modify($with,$height){
+  width: $with;height: $height;
+  margin-left: -$with/2;margin-top: -$height/2;
+}
+
+

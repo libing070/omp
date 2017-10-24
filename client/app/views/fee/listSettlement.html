@@ -1,0 +1,112 @@
+<nav class="nav-bar">
+  <span class="icon-font tips">&#xe614</span>
+  <span class="tips cur">费用 ></span>
+  <span class="cur">手续费结算</span>
+</nav>
+
+<div class="tr">
+	<button class="btn btn-success btn-broad" ng-click="exportExcel()">导出Excel</button>
+</div>
+<div class="top25 narrow-box">
+  <button class="btn btn-input btn-default" style="float:right" ng-click="findResult()" type="button">查找</button>
+	<select class="btn btn-narrow" ng-model="search_supplierID">
+		<option value="" ng-selected="selected" selected="selected">供应商</option>
+		<option ng-repeat="supplier in suppliers" value="{{supplier.supplierID}}">{{supplier.supplierName }}</option>
+	</select>
+
+	<select class="btn btn-narrow" ng-model="search_cityID">
+		<option value="" ng-selected="selected" selected="selected">城市</option>
+		<option ng-repeat="city in citys" value="{{city.cityID}}">{{city.cityName}}</option>
+	</select>
+
+	<input id="search_createTimeStart"  type="text" date-time clear=true view="date" position="absolute" min-date="minDate" max-date="dates.maxDate"  format="YYYY-MM-DD HH:mm" min-view="minutes" step="1"  ng-model="dates.search_createTimeStart"   class="btn btn-narrow"  placeholder="起始日期" readonly="readonly" />
+	<input id="search_createTimeEnd" type="text" date-time clear=true view="date" position="absolute" date-change="changeDate" max-date="maxDate"   min-date="dates.minDate"  min-view="minutes"  format="YYYY-MM-DD HH:mm" step="1"   ng-model="dates.search_createTimeEnd"  ng-disabled="dates.search_createTimeStart.format('YYYY-MM-DD')?false:true" class="btn btn-narrow"  placeholder="终止日期" readonly="readonly"/>
+
+	<select class="btn btn-narrow" ng-model="search_operType">
+		<option value="" ng-selected="selected" selected="selected">收入/支出</option>
+		<option value="1" ng-selected="" selected="">收入</option>
+		<option value="2" ng-selected="" selected="">支出</option>
+	</select>
+
+	<select class="btn btn-narrow" ng-model="search_subject">
+		<option value="" ng-selected="selected" selected="selected">科目</option>
+		<option value="{{$index+1}}" ng-selected="" ng-repeat="subject in subjectStatus" selected="">{{subject}}</option>
+	</select>
+
+	<input class="btn btn-narrow" type="text" ng-model="search_policyCustomerNo" placeholder="输入电子保单号" />
+
+</div>
+
+<table class="top30 table-small">
+	<thead>
+		<tr>
+			<th>电子投保单号</th>
+			<th>保单号</th>
+			<th ng-click="doSort()">起保/批改生效日期{{sortSign}}</th>
+			<th>批单号</th>
+			<th>金额</th>
+			<th>收入/支出</th>
+			<th>科目</th>
+			<th>供应商</th>
+			<th>城市</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="settlement in settlements">
+			<td>{{settlement.policyCustomerNo}}</td>
+			<td>{{settlement.policyNO}}</td>
+			<td>{{settlement.startDate}}</td>
+			<td>{{settlement.endorseNO}}</td>
+			<td>{{settlement.amount}} <span ng-show="settlement.amount">元</span></td>
+			<td>{{settlement.operType=='1' ? '收入' : '支出'}}</td>
+			<td>{{subjectStatus[settlement.subject-1]}}</td>
+			<td>{{settlement.supplierShortName}}</td>
+			<td>{{settlement.cityName}}</td>
+		</tr>
+	</tbody>
+</table>
+<nav class="ov">
+	<div class="navleft fl">共{{total}}条</div>
+	<div paging class="fr" page="currentPage" page-size="pageSize" total="total" paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)">
+	</div>
+</nav>
+
+<div class="pop" ng-show="PopHide">
+	<div class="pop-up">
+		<h1 class="pop-title">{{title}}</h1>
+		<div class="pop-wrap tc">
+			<div class="ib tl">
+				{{context}}
+			</div>
+		</div>
+		<div class="pop-btn tc">
+			<button type="button" class="btn btn-input btn-success" ng-click="cancel()">确定</button>
+		</div>
+
+	</div>
+</div>
+
+<div class="pop" ng-show="popShow">
+  <div class="pop-up pop-up-large">
+    <h1 class="pop-title">导出EXCEL</h1>
+    <div class="pop-wrap pop-values" style="height: 280px;">
+      <div><small class="tips"> 查询条件:{{isReal?'':'无'}} (共计{{total}}条)</small></div>
+      <div class="input-group" ng-repeat="param in params">
+        <span class="input-group-addon">{{param.key}}</span>
+        <div class="input-group-content">{{param.value}}</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="pop-btn tc">
+      <button type="button" class="btn btn-input" ng-click="cancelExport()">取消</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-input btn-success" ng-click="ensureExportExcel()">确认导出</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" style="width:150px;height:60px;position:absolute;top:50%;left:50%;" ng-show="modalGoodsSuccess">
+  <div class="pop-wrap tc success">
+    导出成功
+  </div>
+</div>
+

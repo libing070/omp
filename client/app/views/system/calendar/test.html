@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name=description content="">
+    <meta name="viewport" content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1">
+</head>
+<body>
+<script>
+
+
+  var  schedulingList ={
+    "data": [
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1502",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-01"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1503",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-02"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1504",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-03"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1505",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-04"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1506",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-05"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1507",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-06"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1508",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-07"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1509",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-08"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1510",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-09"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1511",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-10"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1512",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-11"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1513",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-12"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1514",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-13"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1515",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-14"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1516",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-15"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1517",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-16"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1518",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-17"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1519",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-18"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1520",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-19"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1521",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-20"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1522",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-21"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1523",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-22"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1524",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-23"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1525",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-24"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1526",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-25"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1527",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-26"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1528",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-27"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1529",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-28"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-17 15:36:55.0",
+        "schedulingID": "1530",
+        "lastUpdate": "2016-03-17 15:36:55.0",
+        "scheduleDate": "2016-02-29"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1868",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-01"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1869",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-02"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1870",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-03"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1871",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-04"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1872",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-05"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1873",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-06"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1874",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-07"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1875",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-08"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1876",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-09"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1877",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-10"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1878",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-11"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1879",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-12"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1880",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-13"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1881",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-14"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1882",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-15"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1883",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-16"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1884",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-17"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1885",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-18"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1886",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-19"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1887",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-20"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1888",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-21"
+      },
+      {
+        "week": "4",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1889",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-22"
+      },
+      {
+        "week": "5",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1890",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-23"
+      },
+      {
+        "week": "6",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1891",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-24"
+      },
+      {
+        "week": "7",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1892",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-25"
+      },
+      {
+        "week": "1",
+        "scheduleType": "1",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1893",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-26"
+      },
+      {
+        "week": "2",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1894",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-27"
+      },
+      {
+        "week": "3",
+        "scheduleType": "2",
+        "createTime": "2016-03-18 11:14:03.0",
+        "schedulingID": "1895",
+        "lastUpdate": "2016-03-18 11:14:03.0",
+        "scheduleDate": "2017-02-28"
+      }
+    ],
+    "errorCode": 0
+  }.data;
+  var arrTem=[];
+  var m= 0, n= parseInt(schedulingList[0].week)- 1;
+  arrTem[m]=[];
+  console.log("n:"+n);
+  if(n>0){
+    var k=n;
+    var temNull={
+      schedulingID	:"",	//工作排程自增ID
+      scheduleDate	:"",	//排程日期
+      week	:"",			//所属星期
+      scheduleType	:"",	//排程设置1 休息日
+      workingStart	:"",	//弹性工作时间开始（type=3此字段有值）
+      workingEnd	:"",	//弹性工作时间结束（type=3此字段有值）
+      createTime	:"",		//创建时间
+      lastUpdate	:""		//最后更新时间
+    };
+    while (k>0){
+      k--;
+      console.log("k:"+k);
+      console.log(arrTem[m]);
+      arrTem[m].push("");
+
+    }
+    console.log("arrTem[m]\n");
+    console.log(arrTem[m]);
+  }
+  schedulingList.forEach(function(item,index){
+    arrTem[m]=[];
+    console.log("m:"+m+"列表："+ (n+index)%7);
+    arrTem[m][(n+index)%7]=item;
+    console.info(arrTem[m][(n+index)%7]);
+    if((n+index+1)%7==0){
+      m++;
+      arrTem[m]=[];
+    }
+
+  });
+  console.log(arrTem)
+
+</script>
+</body>
+</html>
